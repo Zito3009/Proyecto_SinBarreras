@@ -3,41 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro; 
 
-public class ZonaVictoria : MonoBehaviour
-{
-    [Header("Interfaz de Usuario")]
-    [Tooltip("Arrastra aquí el objeto del texto de ganaste que creaste en el Canvas")]
+public class ZonaVictoria : MonoBehaviour{
+    // Esta variable guardará la pantalla/texto de "¡Ganaste!" que creaste en la UI
     public GameObject cartelGanaste;
 
-    [Header("Efectos Adicionales (Opcional)")]
-    public bool pausarJuegoAlGanar = true;
-
-    private void OnTriggerEnter(Collider other)
+    // Esta función se ejecuta automáticamente cuando algo entra en la zona verde (Is Trigger)
+    private void OnTriggerEnter(Collider col)
     {
-        // Verifica si el objeto que entró a la zona es el personaje
-        if (other.CompareTag("Player") || other.gameObject.GetComponent<ControladorAgarrar>() != null)
-        {
-            MostrarVictoria();
-        }
-    }
+       // 1. Buscamos el script de MOVIMIENTO en la esfera que entró
+        MovimientoDirecto movimiento = col.GetComponent<MovimientoDirecto>();
 
-    void MostrarVictoria()
-    {
-        if (cartelGanaste != null)
+        // 2. Si realmente fue el jugador el que entró
+        if (movimiento != null)
         {
-            cartelGanaste.SetActive(true); // Activa el cartel en pantalla
-        }
+            // Mostramos el cartel activando el objeto en el Canvas
+            cartelGanaste.SetActive(true);
 
-        Debug.Log("¡El jugador ha llegado a la esquina y ganó!");
+            // Desactivamos el script de MOVIMIENTO para que no pueda caminar
+            movimiento.enabled = false;
 
-        if (pausarJuegoAlGanar)
-        {
-            // Pausa el movimiento y las físicas del juego
-            Time.timeScale = 0f;
-            
-            // Libera el cursor del ratón para que el jugador pueda usar menús si los hubiera
+            // Liberamos el puntero del ratón para que vuelva a ser visible en pantalla
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
     }
 }
+

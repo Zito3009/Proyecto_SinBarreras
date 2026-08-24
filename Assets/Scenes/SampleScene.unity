@@ -1754,8 +1754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f37c99f6b3edee4ca8228d3e119a98c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cartelGanaste: {fileID: 1607660148}
-  pausarJuegoAlGanar: 1
+  cartelGanaste: {fileID: 792236278}
 --- !u!23 &1562169782
 MeshRenderer:
   m_ObjectHideFlags: 0
