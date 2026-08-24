@@ -16,6 +16,8 @@ public class ZonaVictoria : MonoBehaviour{
         // 2. Si realmente fue el jugador el que entró
         if (movimiento != null)
         {
+            FindObjectOfType<TemporizadorJuego>().enabled = false;
+
             // Mostramos el cartel activando el objeto en el Canvas
             cartelGanaste.SetActive(true);
 
