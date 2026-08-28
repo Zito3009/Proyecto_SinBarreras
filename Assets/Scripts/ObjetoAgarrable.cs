@@ -7,20 +7,20 @@ public class ObjetoAgarrable : MonoBehaviour
 {
     private Rigidbody rb;
     private Renderer miRender;
-    private Collider miCollider; // Guardamos la referencia al colisionador
+    private Collider miCollider;
     private Color colorOriginal;
 
     private bool estoyAgarrado = false;
     private Transform puntoEnMano;
 
-    [Header("Configuracion de Color")]
+    [Header("Configuración")]
     public Color colorResaltado = Color.yellow;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         miRender = GetComponent<Renderer>();
-        miCollider = GetComponent<Collider>(); // Obtenemos el Collider del objeto
+        miCollider = GetComponent<Collider>();
 
         if (miRender != null)
         {
@@ -28,12 +28,14 @@ public class ObjetoAgarrable : MonoBehaviour
         }
     }
 
-    void Update()
+    // Usamos FixedUpdate porque los Rigidbody se mueven en el ciclo de física
+    void FixedUpdate()
     {
         if (estoyAgarrado && puntoEnMano != null)
         {
-            transform.position = puntoEnMano.position;
-            transform.rotation = puntoEnMano.rotation; // Copiamos la rotacion de la mano
+            // Forzamos al Rigidbody a moverse directamente a la posición de la mano
+            rb.MovePosition(puntoEnMano.position);
+            rb.MoveRotation(puntoEnMano.rotation);
         }
     }
 
@@ -47,23 +49,33 @@ public class ObjetoAgarrable : MonoBehaviour
     {
         estoyAgarrado = true;
         puntoEnMano = mano;
-        rb.isKinematic = true;
 
-        // Desactivamos el colisionador mientras lo llevamos para que no empuje al jugador
-        if (miCollider != null)
+        // Mantenemos isKinematic en true para que la física no lo atraiga al suelo
+        rb.isKinematic = true;
+        rb.useGravity = false;
+
+        // Desactivamos el colisionador para evitar que choque con el personaje
+        if (miCollider != null) 
         {
             miCollider.enabled = false;
         }
+
+        // Posicionamos el objeto inmediatamente en la mano
+        transform.position = mano.position;
+        transform.rotation = mano.rotation;
     }
 
     public void Soltar()
     {
         estoyAgarrado = false;
         puntoEnMano = null;
-        rb.isKinematic = false;
 
-        // Volvemos a activar el colisionador al soltarlo para que vuelva a tener fisica y colisione con el piso
-        if (miCollider != null)
+        // Reactivamos físicas y gravedad
+        rb.isKinematic = false;
+        rb.useGravity = true;
+
+        // Reactivamos colisionador
+        if (miCollider != null) 
         {
             miCollider.enabled = true;
         }
@@ -71,3 +83,4 @@ public class ObjetoAgarrable : MonoBehaviour
         Resaltar(false);
     }
 }
+

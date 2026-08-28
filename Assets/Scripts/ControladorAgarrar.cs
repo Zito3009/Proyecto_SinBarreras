@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ControladorAgarrar : MonoBehaviour
 {
-    [Header("Configuracion de Alcance")]
-    public Transform manoJugador;        // Objeto vacio 'Mano'
-    public float radioAlcance = 2.5f;    // Distancia alrededor de la esfera donde detecta objetos
+    [Header("Configuración de Alcance")]
+    public Transform manoJugador;        // Asigna aquí el punto (objeto vacío) donde irá el objeto
+    public float radioAlcance = 2.5f;    // Distancia para detectar objetos
     public KeyCode teclaAgarrar = KeyCode.E;
 
     private ObjetoAgarrable objetoMirando;
@@ -14,13 +14,13 @@ public class ControladorAgarrar : MonoBehaviour
 
     void Update()
     {
-        // Si no tenemos nada agarrado, buscamos si hay un objeto cerca
+        // Si no llevamos nada agarrado, buscamos el objeto más cercano
         if (objetoAgarrado == null)
         {
             BuscarObjetosCercanos();
         }
 
-        // Tecla para agarrar / soltar
+        // Tecla para interactuar
         if (Input.GetKeyDown(teclaAgarrar))
         {
             if (objetoAgarrado != null)
@@ -36,7 +36,6 @@ public class ControladorAgarrar : MonoBehaviour
 
     void BuscarObjetosCercanos()
     {
-        // Detecta todos los colisionadores en un radio circular alrededor del personaje
         Collider[] objetosEncontrados = Physics.OverlapSphere(transform.position, radioAlcance);
 
         ObjetoAgarrable objetoMasCercano = null;
@@ -44,14 +43,12 @@ public class ControladorAgarrar : MonoBehaviour
 
         foreach (Collider col in objetosEncontrados)
         {
-            // Ignoramos si se choca a si mismo (la esfera del jugador)
             if (col.gameObject == gameObject) continue;
 
             ObjetoAgarrable agarrable = col.GetComponent<ObjetoAgarrable>();
 
             if (agarrable != null)
             {
-                // Calculamos cual es el objeto mas cercano si hay varios
                 float distancia = Vector3.Distance(transform.position, agarrable.transform.position);
                 if (distancia < menorDistancia)
                 {
@@ -61,7 +58,6 @@ public class ControladorAgarrar : MonoBehaviour
             }
         }
 
-        // Si encontramos un objeto interactuable cercano
         if (objetoMasCercano != null)
         {
             if (objetoMirando != objetoMasCercano)
@@ -96,14 +92,9 @@ public class ControladorAgarrar : MonoBehaviour
     void SoltarObjeto()
     {
         objetoAgarrado.Soltar();
-
-        // Posiciona el objeto un poco por delante del personaje sobre el suelo
-        objetoAgarrado.transform.position = transform.position + transform.forward * 1.2f;
-        
-        objetoAgarrado = null;
+        objetoAgarrado = null; // Liberamos la variable sencillamente
     }
 
-    // Dibuja la esfera de alcance en rojo dentro de la ventana 'Scene' para que veas el radio de kilometraje
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
