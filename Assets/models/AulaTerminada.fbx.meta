@@ -1,0 +1,318 @@
+fileFormatVersion: 2
+guid: 01334822ad4aadb4f9409e5c494eeb2b
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Abecedario
+    100002: Abecedario2
+    100004: Abecedario3
+    100006: //RootNode
+    100008: Calendario
+    100010: Pared1
+    100012: Pared2
+    100014: Pared3
+    100016: Pared4
+    100018: ParedArribaPuerta
+    100020: ParedCostadoPuerta
+    100022: Piso
+    100024: Pizarron
+    100026: Pizarron.001
+    100028: Techo
+    100030: Ventana
+    100032: Ventana.001
+    100034: Ventana.002
+    100036: Ventana.003
+    100038: Ventana.004
+    400000: Abecedario
+    400002: Abecedario2
+    400004: Abecedario3
+    400006: //RootNode
+    400008: Calendario
+    400010: Pared1
+    400012: Pared2
+    400014: Pared3
+    400016: Pared4
+    400018: ParedArribaPuerta
+    400020: ParedCostadoPuerta
+    400022: Piso
+    400024: Pizarron
+    400026: Pizarron.001
+    400028: Techo
+    400030: Ventana
+    400032: Ventana.001
+    400034: Ventana.002
+    400036: Ventana.003
+    400038: Ventana.004
+    2100000: Material.005
+    2100002: Material.006
+    2100004: Material.007
+    2100006: Material.008
+    2100008: MaterialPared
+    2100010: MaterialPiso
+    2100012: Material.002
+    2100014: Material
+    2100016: Material.001
+    2100018: MaterialMarcoVentanaPuerta.003
+    2100020: MaterialVentanaPuerta.003
+    2100022: MaterialMarcoVentanaPuerta.001
+    2100024: MaterialVentanaPuerta.001
+    2100026: MaterialMarcoVentanaPuerta.002
+    2100028: MaterialVentanaPuerta.002
+    2300000: Abecedario
+    2300002: Abecedario2
+    2300004: Abecedario3
+    2300006: Calendario
+    2300008: Pared1
+    2300010: Pared2
+    2300012: Pared3
+    2300014: Pared4
+    2300016: ParedArribaPuerta
+    2300018: ParedCostadoPuerta
+    2300020: Piso
+    2300022: Pizarron
+    2300024: Pizarron.001
+    2300026: Techo
+    2300028: Ventana
+    2300030: Ventana.001
+    2300032: Ventana.002
+    2300034: Ventana.003
+    2300036: Ventana.004
+    3300000: Abecedario
+    3300002: Abecedario2
+    3300004: Abecedario3
+    3300006: Calendario
+    3300008: Pared1
+    3300010: Pared2
+    3300012: Pared3
+    3300014: Pared4
+    3300016: ParedArribaPuerta
+    3300018: ParedCostadoPuerta
+    3300020: Piso
+    3300022: Pizarron
+    3300024: Pizarron.001
+    3300026: Techo
+    3300028: Ventana
+    3300030: Ventana.001
+    3300032: Ventana.002
+    3300034: Ventana.003
+    3300036: Ventana.004
+    4300000: Abecedario
+    4300002: Abecedario2
+    4300004: Abecedario3
+    4300006: Calendario
+    4300008: Pared1
+    4300010: Pared2
+    4300012: Pared3
+    4300014: Pared4
+    4300016: ParedArribaPuerta
+    4300018: ParedCostadoPuerta
+    4300020: Piso
+    4300022: Pizarron
+    4300024: Pizarron.001
+    4300026: Techo
+    4300028: Ventana
+    4300030: Ventana.001
+    4300032: Ventana.002
+    4300034: Ventana.003
+    4300036: Ventana.004
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 17f0ef38bfbcacf409919915c2ed9855, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 79e963d50b050e34c97d808e9dc7361e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: d946bf425a6c0f74cb5dc24b71207f2d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.005
+    second: {fileID: 2100000, guid: 17a4cf8bcc72f2a44bc08fc0c332b0a8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.006
+    second: {fileID: 2100000, guid: c2f0f6385708e294facd961c1d3643cb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.007
+    second: {fileID: 2100000, guid: 62065f702a7234a41bc9b730e4260ee6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.008
+    second: {fileID: 2100000, guid: b45e61c5bc38f134394bcb2fb382d1b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MaterialMarcoVentanaPuerta.001
+    second: {fileID: 2100000, guid: d784e462027c6c84f85a0e85440bacbf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MaterialMarcoVentanaPuerta.002
+    second: {fileID: 2100000, guid: 8799d16dd13d86c458eac366856af602, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MaterialMarcoVentanaPuerta.003
+    second: {fileID: 2100000, guid: 20e0cc9234ab6954296177bafd9859e1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MaterialPared
+    second: {fileID: 2100000, guid: b5a30298ab4dc73458c85cc1d16ebad6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MaterialPiso
+    second: {fileID: 2100000, guid: 797e08119a5253349a053bf6941f03b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MaterialVentanaPuerta.001
+    second: {fileID: 2100000, guid: 819824e4f3c956f41ac7833a74a1e56c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MaterialVentanaPuerta.002
+    second: {fileID: 2100000, guid: ccca03edc67a85444b8078ac47b8b15b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MaterialVentanaPuerta.003
+    second: {fileID: 2100000, guid: 9391348c2c75a4e4593b5e1106a27c96, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaAbecedario
+    second: {fileID: 2800000, guid: f66bd18261daaf744af31b02d3d0098f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaMaderaPizarron
+    second: {fileID: 2800000, guid: 0a66919ce54bec244a2c01fd6f91d1f6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaMetalGrisOscuro
+    second: {fileID: 2800000, guid: 69d94e263704feb4eb9f10155406092d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaPiso
+    second: {fileID: 2800000, guid: 09b44544a0232304c8ddf33c8363fd21, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaPizarra
+    second: {fileID: 2800000, guid: d930f24b336a2fc4dbe0e44c43d82930, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaTecho
+    second: {fileID: 2800000, guid: 2118359a6d1d2ff45a67b108355ea5bd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaVidrio
+    second: {fileID: 2800000, guid: 52162f99ab77f1a4186ea33efec6631d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturiaCalendario
+    second: {fileID: 2800000, guid: db00c9a54dbea004a813a4ffe15d26be, type: 3}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
