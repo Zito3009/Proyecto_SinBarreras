@@ -5,7 +5,7 @@ using TMPro;
 
 public class TemporizadorJuego : MonoBehaviour
 {
-     public float tiempoRestante = 90f; // 1:30 minutos
+    public float tiempoRestante = 90f; // 1:30 minutos
     public TextMeshProUGUI textoTiempo;
     public GameObject cartelPerdiste;
 

@@ -1,30 +1,55 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro; 
 
-public class ZonaVictoria : MonoBehaviour{
-    // Esta variable guardará la pantalla/texto de "¡Ganaste!" que creaste en la UI
+public class ZonaVictoria : MonoBehaviour
+{
     public GameObject cartelGanaste;
 
-    // Esta función se ejecuta automáticamente cuando algo entra en la zona verde (Is Trigger)
+    // Elementos de la interfaz a mostrar
+    public GameObject estrella;
+    public GameObject estrella2;
+
     private void OnTriggerEnter(Collider col)
     {
-       // 1. Buscamos el script de MOVIMIENTO en la esfera que entró
+        // 1. Buscamos el script de movimiento en el objeto que entró
         MovimientoDirecto movimiento = col.GetComponent<MovimientoDirecto>();
 
-        // 2. Si realmente fue el jugador el que entró
+        // 2. Si fue el jugador
         if (movimiento != null)
         {
-            FindObjectOfType<TemporizadorJuego>().enabled = false;
+            // Buscamos el temporizador en la escena
+            TemporizadorJuego temporizador = FindObjectOfType<TemporizadorJuego>();
 
-            // Mostramos el cartel activando el objeto en el Canvas
+            if (temporizador != null)
+            {
+                // Detenemos la cuenta regresiva
+                temporizador.enabled = false;
+
+                // Calculamos cuánto tiempo tardó en total (90 segundos iniciales - tiempo restante)
+                float tiempoEmpleado = 90f - temporizador.tiempoRestante;
+
+                // Si tardó menos de 60 segundos (menos de 1 minuto)
+                if (tiempoEmpleado < 60f)
+                {
+                    estrella2.SetActive(true);
+                    estrella.SetActive(true);
+                }
+                // Si tardó 60 segundos o más (más de 1 minuto)
+                else
+                {
+                    estrella.SetActive(true);
+                    estrella2.SetActive(false);
+                }
+            }
+
+            // Mostramos el panel de ganaste
             cartelGanaste.SetActive(true);
 
-            // Desactivamos el script de MOVIMIENTO para que no pueda caminar
+            // Desactivamos el movimiento del jugador
             movimiento.enabled = false;
 
-            // Liberamos el puntero del ratón para que vuelva a ser visible en pantalla
+            // Liberamos el ratón para poder interactuar en pantalla
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
