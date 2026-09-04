@@ -9,6 +9,20 @@ public class ZonaVictoria : MonoBehaviour
     // Elementos de la interfaz a mostrar
     public GameObject estrella;
     public GameObject estrella2;
+    public GameObject cartelMejora;
+    float TiempoEspera = 5f;
+    bool contar;
+
+    void Update(){
+        if(contar){
+            TiempoEspera -= Time.deltaTime;
+            if(TiempoEspera <= 0){
+                cartelMejora.SetActive(true);
+                contar = false;
+                cartelGanaste.SetActive(false);
+            }
+        }
+    }
 
     private void OnTriggerEnter(Collider col)
     {
@@ -52,7 +66,10 @@ public class ZonaVictoria : MonoBehaviour
             // Liberamos el ratón para poder interactuar en pantalla
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            contar = true;
         }
     }
+
+    
 }
 
