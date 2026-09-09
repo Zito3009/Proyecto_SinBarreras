@@ -5,12 +5,9 @@ using UnityEngine;
 public class ZonaVictoria : MonoBehaviour
 {
     public GameObject cartelGanaste;
-
-    // Elementos de la interfaz a mostrar
-    public GameObject estrella;
-    public GameObject estrella2;
+    public GameObject cartelGanasteMejor;
     public GameObject cartelMejora;
-    float TiempoEspera = 5f;
+    float TiempoEspera = 10f;
     bool contar;
 
     void Update(){
@@ -44,22 +41,16 @@ public class ZonaVictoria : MonoBehaviour
                 float tiempoEmpleado = 90f - temporizador.tiempoRestante;
 
                 // Si tardó menos de 60 segundos (menos de 1 minuto)
-                if (tiempoEmpleado < 60f)
+                if (tiempoEmpleado < 40f)
                 {
-                    estrella2.SetActive(true);
-                    estrella.SetActive(true);
+                    panelGanasteMejor.SetActive(true);
                 }
                 // Si tardó 60 segundos o más (más de 1 minuto)
                 else
                 {
-                    estrella.SetActive(true);
-                    estrella2.SetActive(false);
+                    panelGanaste.SetActive(true);
                 }
             }
-
-            // Mostramos el panel de ganaste
-            cartelGanaste.SetActive(true);
-
             // Desactivamos el movimiento del jugador
             movimiento.enabled = false;
 

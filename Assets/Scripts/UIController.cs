@@ -25,7 +25,6 @@ public class UIController : MonoBehaviour
         panelInicio.SetActive(false);
         panelRegistro.SetActive(true);
     }
-
     public void VolverAlInicio()
     {
         panelInicio.SetActive(true);
