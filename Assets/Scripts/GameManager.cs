@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public GameObject panelGanasteMejor;
     public GameObject panelMejora;
     public GameObject personaje1, personaje2;
-    public Transform posicionInicio;
+    public Transform posInicio;
 
     private float tiempo;
     private bool termino;
