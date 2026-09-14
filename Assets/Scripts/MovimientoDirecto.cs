@@ -9,7 +9,7 @@ public class MovimientoDirecto : MonoBehaviour
     public Transform camara;
 
     [Header("Ajustes de Movimiento")]
-    public float velocidad = 6f;
+    public float velocidad = 3.5f;
     public float gravedad = 20f;
     public float velocidadRotacion = 12f; // Velocidad con la que el personaje gira a donde camina
 
