@@ -82,5 +82,9 @@ public class ObjetoAgarrable : MonoBehaviour
 
         Resaltar(false);
     }
+     private bool yaDepositado = false;
+
+    public bool PuedeContarseComoDepositado() => !estoyAgarrado && !yaDepositado;
+    public void MarcarComoDepositado() => yaDepositado = true;
 }
 

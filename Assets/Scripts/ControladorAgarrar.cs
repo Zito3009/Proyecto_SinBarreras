@@ -100,4 +100,5 @@ public class ControladorAgarrar : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, radioAlcance);
     }
+
 }

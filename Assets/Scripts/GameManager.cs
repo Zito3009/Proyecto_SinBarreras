@@ -10,6 +10,11 @@ public class GameManager : MonoBehaviour
     public GameObject panelMejora;
     public GameObject personaje1, personaje2;
     public Transform posInicio;
+    public GameObject panelGanastePersonaje2;
+    public GameObject panelGanasteMejorPersonaje2;
+    public CamaraTerceraPersona camaraJugador;
+    public ControladorAgarrar controladorAgarrarPersonaje2;
+    public ContadorObjetosFase2 contadorFase2;
 
     private float tiempo;
     private bool termino;
@@ -60,6 +65,10 @@ public class GameManager : MonoBehaviour
         personaje2.transform.position = posInicio.position;
         personaje2.SetActive(true);
 
+        camaraJugador.objetivo = personaje2.transform;
+        controladorAgarrarPersonaje2.enabled = true;
+        contadorFase2.IniciarFase(); 
+
         // Reiniciar variables
         tiempo = 0;
         termino = false;
@@ -68,6 +77,16 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1;
+    }
+    
+     public void FinalizarFase2(int objetosMovidos, int minimoRequerido)
+    {
+        PausarYMostrarCursor();
+
+        if (objetosMovidos >= minimoRequerido)
+            panelGanasteMejorPersonaje2.SetActive(true);
+        else
+            panelGanastePersonaje2.SetActive(true);
     }
 
     void PausarYMostrarCursor()

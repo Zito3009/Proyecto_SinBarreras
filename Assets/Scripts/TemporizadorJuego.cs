@@ -7,7 +7,9 @@ public class TemporizadorJuego : MonoBehaviour
 {
     public float tiempoRestante = 90f; // 1:30 minutos
     public TextMeshProUGUI textoTiempo;
-    public GameObject cartelPerdiste;
+    public GameManager gameManager;
+    public MovimientoDirecto movimientoJugador;
+
 
     private bool juegoTerminado = false;
 
@@ -19,25 +21,15 @@ public class TemporizadorJuego : MonoBehaviour
 
         // Muestra los segundos en pantalla
         if (textoTiempo != null){
-    float tiempo = Mathf.Max(0, tiempoRestante);
-    int minutos = Mathf.FloorToInt(tiempo / 60);
-    int segundos = Mathf.FloorToInt(tiempo % 60);
-
-    // Muestra el formato 00:00 (ej: 01:30 o 00:09)
-    textoTiempo.text = string.Format("{0:00}:{1:00}", minutos, segundos);}
-
+            float tiempo = Mathf.Max(0, tiempoRestante);
+            textoTiempo.text = string.Format("{0:00}:{1:00}", Mathf.FloorToInt(tiempo / 60), Mathf.FloorToInt(tiempo % 60));
+        }
         // Si se acaba el tiempo
         if (tiempoRestante <= 0)
         {
             juegoTerminado = true;
-            
-            if (cartelPerdiste != null) 
-                cartelPerdiste.SetActive(true);
-
-            // Desactiva movimiento del jugador y libera el ratón
-            FindObjectOfType<MovimientoDirecto>().enabled = false;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            movimientoJugador.enabled = false;
+            gameManager.TiempoAgotado();
         }
     }
 }
