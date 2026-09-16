@@ -5,20 +5,31 @@ using UnityEngine;
 public class ZonaVictoria : MonoBehaviour
 {
     public GameManager gameManager; // Referencia a tu GameManager
+    public Animator animatorPuerta;
+    public float duracionAnimacionPuerta = 2.1f; // ajustá este número a la duración real de tu clip
+
+    private bool yaActivada = false;
 
     private void OnTriggerEnter(Collider col)
     {
-        // Verifica si el objeto que entró tiene el script de movimiento
+        if (yaActivada) return;
+
         MovimientoDirecto movimiento = col.GetComponentInParent<MovimientoDirecto>();
+        if (movimiento == null) return;
 
-        if (movimiento != null)
-        {
-            // Desactiva el movimiento del jugador inmediatamente
-            movimiento.enabled = false;
+        yaActivada = true;
+        movimiento.enabled = false;
 
-            // Le avisa al GameManager que tocaste la victoria para que active paneles y la cuenta
-            gameManager.TocarPuerta();
-        }
+        if (animatorPuerta != null)
+            animatorPuerta.Play("Abrir");
+
+        StartCoroutine(EsperarYMostrarCartel());
+    }
+
+    private IEnumerator EsperarYMostrarCartel()
+    {
+        yield return new WaitForSeconds(duracionAnimacionPuerta);
+        gameManager.TocarPuerta();
     }
 }
 
