@@ -9,7 +9,7 @@ public class ZonaVictoria : MonoBehaviour
     private void OnTriggerEnter(Collider col)
     {
         // Verifica si el objeto que entró tiene el script de movimiento
-        MovimientoDirecto movimiento = col.GetComponent<MovimientoDirecto>();
+        MovimientoDirecto movimiento = col.GetComponentInParent<MovimientoDirecto>();
 
         if (movimiento != null)
         {

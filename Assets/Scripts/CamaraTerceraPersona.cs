@@ -14,6 +14,18 @@ public class CamaraTerceraPersona : MonoBehaviour
     private float rotacionX = 0f;
     private float rotacionY = 0f;
 
+    void Start()
+    {
+        if (objetivo == null) return;
+
+        // Arrancamos mirando en la misma dirección inicial del personaje
+        rotacionY = objetivo.eulerAngles.y;
+
+        Quaternion rotacionInicial = Quaternion.Euler(rotacionX, rotacionY, 0);
+        transform.position = objetivo.position + rotacionInicial * offset;
+        transform.LookAt(objetivo.position + Vector3.up * 1.5f);
+    }
+
     void LateUpdate()
     {
         if (objetivo == null) return;
