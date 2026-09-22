@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ZonaVictoria : MonoBehaviour
 {
-    public GameManager gameManager; // Referencia a tu GameManager
+    public GameManager gameManager;
     public Animator animatorPuerta;
-    public float duracionAnimacionPuerta = 2.1f; // ajustá este número a la duración real de tu clip
+    public float duracionAnimacionPuerta = 2.5f;
 
     private bool yaActivada = false;
 
@@ -21,7 +21,10 @@ public class ZonaVictoria : MonoBehaviour
         movimiento.enabled = false;
 
         if (animatorPuerta != null)
-            animatorPuerta.Play("Abrir");
+        {
+            animatorPuerta.enabled = true;
+            animatorPuerta.Play("Abrir", 0, 0f);
+        }
 
         StartCoroutine(EsperarYMostrarCartel());
     }
