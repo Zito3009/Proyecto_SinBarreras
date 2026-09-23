@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public CamaraTerceraPersona camaraJugador;
     public ControladorAgarrar controladorAgarrarPersonaje2;
     public ContadorObjetosFase2 contadorFase2;
+    public GameObject panelContador;
     public GameObject flecha;
     public Animator puerta;
 
@@ -71,6 +72,8 @@ public class GameManager : MonoBehaviour
         puerta.Update(0f);              // aplica esa pose ya mismo
         puerta.enabled = false;         // y la deja congelada ahí, cerrada
     }
+    if (panelContador != null)
+        panelContador.SetActive(true);
 
         // Cambiar personajes y posicionar al 2 en el inicio
         personaje1.SetActive(false);

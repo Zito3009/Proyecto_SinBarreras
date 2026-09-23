@@ -8,6 +8,11 @@ public class ControladorAgarrar : MonoBehaviour
     public Transform manoJugador;        // Asigna aquí el punto (objeto vacío) donde irá el objeto
     public float radioAlcance = 2.5f;    // Distancia para detectar objetos
     public KeyCode teclaAgarrar = KeyCode.E;
+    public KeyCode teclaSoltar = KeyCode.R;
+
+    public Transform zonaDeposito;
+    public float radioDeposito = 2f;
+    public ContadorObjetosFase2 contadorFase2;
 
     private ObjetoAgarrable objetoMirando;
     private ObjetoAgarrable objetoAgarrado;
@@ -15,23 +20,28 @@ public class ControladorAgarrar : MonoBehaviour
     void Update()
     {
         // Si no llevamos nada agarrado, buscamos el objeto más cercano
-        if (objetoAgarrado == null)
+       if (objetoAgarrado == null)
         {
             BuscarObjetosCercanos();
-        }
 
-        // Tecla para interactuar
-        if (Input.GetKeyDown(teclaAgarrar))
-        {
-            if (objetoAgarrado != null)
-            {
-                SoltarObjeto();
-            }
-            else if (objetoMirando != null)
+            if (Input.GetKeyDown(teclaAgarrar) && objetoMirando != null)
             {
                 AgarrarObjeto();
             }
         }
+        else
+        {
+            if (Input.GetKeyDown(teclaSoltar) && EstaCercaDeZonaDeposito())
+            {
+                SoltarObjeto();
+            }
+        }
+    }
+
+     bool EstaCercaDeZonaDeposito()
+    {
+        if (zonaDeposito == null) return false;
+        return Vector3.Distance(transform.position, zonaDeposito.position) <= radioDeposito;
     }
 
     void BuscarObjetosCercanos()
@@ -92,6 +102,13 @@ public class ControladorAgarrar : MonoBehaviour
     void SoltarObjeto()
     {
         objetoAgarrado.Soltar();
+
+        if (objetoAgarrado.PuedeContarseComoDepositado())
+        {
+            objetoAgarrado.MarcarComoDepositado();
+            if (contadorFase2 != null)
+                contadorFase2.RegistrarObjetoMovido();
+        }
         objetoAgarrado = null; // Liberamos la variable sencillamente
     }
 
