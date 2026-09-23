@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public CamaraTerceraPersona camaraJugador;
     public ControladorAgarrar controladorAgarrarPersonaje2;
     public ContadorObjetosFase2 contadorFase2;
+    public GameObject flecha;
+    public Animator puerta;
 
     private float tiempo;
     private bool termino;
@@ -59,7 +61,17 @@ public class GameManager : MonoBehaviour
     public void EmpezarSegundaPerspectiva()
     {
         panelMejora.SetActive(false);
-        
+
+        if (flecha != null)
+        flecha.SetActive(false);
+
+        if (puerta != null)
+    {
+        puerta.Play("Abrir", 0, 0f);   // fuerza el frame 0 (puerta cerrada)
+        puerta.Update(0f);              // aplica esa pose ya mismo
+        puerta.enabled = false;         // y la deja congelada ahí, cerrada
+    }
+
         // Cambiar personajes y posicionar al 2 en el inicio
         personaje1.SetActive(false);
         personaje2.transform.position = posInicio.position;
