@@ -86,5 +86,16 @@ public class ObjetoAgarrable : MonoBehaviour
 
     public bool PuedeContarseComoDepositado() => !estoyAgarrado && !yaDepositado;
     public void MarcarComoDepositado() => yaDepositado = true;
+    
+    public void Guardar()
+    {
+        Resaltar(false);
+        gameObject.SetActive(false);
+    }
+
+    public void Depositar()
+    {
+        Destroy(gameObject);
+    }
 }
 

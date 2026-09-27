@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public GameObject panelContador;
     public GameObject flecha;
     public Animator puerta;
+    public GameObject cajaDeposito;
 
     private float tiempo;
     private bool termino;
@@ -52,7 +53,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator EsperarMejora()
     {
-        yield return new WaitForSecondsRealtime(10f); // Espera 10 segundos
+        yield return new WaitForSecondsRealtime(5f); 
         panelGanaste.SetActive(false);
         panelGanasteMejor.SetActive(false);
         panelMejora.SetActive(true);
@@ -92,6 +93,9 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1;
+
+        if (cajaDeposito != null)
+         cajaDeposito.SetActive(true);
     }
     
      public void FinalizarFase2(int objetosMovidos, int minimoRequerido)
