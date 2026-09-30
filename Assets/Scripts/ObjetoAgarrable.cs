@@ -95,7 +95,7 @@ public class ObjetoAgarrable : MonoBehaviour
 
     public void Depositar()
     {
-        Destroy(gameObject);
+         gameObject.SetActive(false);
     }
 }
 

@@ -170,4 +170,9 @@ public class ControladorAgarrar : MonoBehaviour
         }
     }
 
+    public void ReiniciarBolsillo()
+{
+    objetosEnBolsillo.Clear();
+}
+
 }

@@ -19,9 +19,15 @@ public class GameManager : MonoBehaviour
     public GameObject flecha;
     public Animator puerta;
     public GameObject cajaDeposito;
+    public GameObject panelFlojoPersonaje2;
+    public int minimoAprobadoFase2 = 10;
 
     private float tiempo;
     private bool termino;
+
+    private List<ObjetoAgarrable> objetosFase2 = new List<ObjetoAgarrable>();
+    private Dictionary<ObjetoAgarrable, Vector3> posicionesOriginales = new Dictionary<ObjetoAgarrable, Vector3>();
+    private Dictionary<ObjetoAgarrable, Quaternion> rotacionesOriginales = new Dictionary<ObjetoAgarrable, Quaternion>();
 
     void Update()
     {
@@ -83,6 +89,17 @@ public class GameManager : MonoBehaviour
 
         camaraJugador.objetivo = personaje2.transform;
         controladorAgarrarPersonaje2.enabled = true;
+
+         objetosFase2.Clear();
+        posicionesOriginales.Clear();
+        rotacionesOriginales.Clear();
+        foreach (ObjetoAgarrable obj in FindObjectsOfType<ObjetoAgarrable>())
+        {
+            objetosFase2.Add(obj);
+            posicionesOriginales[obj] = obj.transform.position;
+            rotacionesOriginales[obj] = obj.transform.rotation;
+        }
+
         contadorFase2.IniciarFase(); 
 
         // Reiniciar variables
@@ -98,14 +115,51 @@ public class GameManager : MonoBehaviour
          cajaDeposito.SetActive(true);
     }
     
-     public void FinalizarFase2(int objetosMovidos, int minimoRequerido)
+     public void FinalizarFase2(int objetosMovidos, int maximoObjetos)
     {
         PausarYMostrarCursor();
 
-        if (objetosMovidos >= minimoRequerido)
+         if (objetosMovidos < minimoAprobadoFase2)
+        {
+            panelFlojoPersonaje2.SetActive(true);
+        }
+        else if (objetosMovidos >= maximoObjetos)
+        {
             panelGanasteMejorPersonaje2.SetActive(true);
+        }
         else
+        {
             panelGanastePersonaje2.SetActive(true);
+        }
+    }
+
+    public void ReintentarFase2()
+    {
+        panelFlojoPersonaje2.SetActive(false);
+        panelGanastePersonaje2.SetActive(false);
+        panelGanasteMejorPersonaje2.SetActive(false);
+
+        foreach (ObjetoAgarrable obj in objetosFase2)
+        {
+            obj.gameObject.SetActive(true);
+            obj.transform.position = posicionesOriginales[obj];
+            obj.transform.rotation = rotacionesOriginales[obj];
+        }
+
+        controladorAgarrarPersonaje2.ReiniciarBolsillo();
+
+        personaje2.transform.position = posInicio.position;
+        contadorFase2.IniciarFase();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Time.timeScale = 1f;
+    }
+
+     public void SiguienteNivel()
+    {
+        Debug.Log("Falta definir la escena del siguiente nivel.");
+        // TODO: SceneManager.LoadScene("NombreDelSiguienteNivel");
     }
 
     void PausarYMostrarCursor()

@@ -36,7 +36,7 @@ public class ContadorObjetosFase2 : MonoBehaviour
             textoTiempo.text = string.Format("{0:00}:{1:00}", Mathf.FloorToInt(t / 60), Mathf.FloorToInt(t % 60));
         }
 
-        if (tiempoRestante <= 0)
+        if (objetosMovidos >= maximoObjetos)
         {
             faseActiva = false;
             gameManager.FinalizarFase2(objetosMovidos, minimoParaMejor);
@@ -49,7 +49,7 @@ public class ContadorObjetosFase2 : MonoBehaviour
 
         objetosMovidos++;
         if (textoContador != null)
-            textoContador.text = objetosMovidos + " / " + maximoObjetos;
+            textoContador.text = objetosMovidos.ToString();
 
         if (objetosMovidos >= maximoObjetos)
         {
