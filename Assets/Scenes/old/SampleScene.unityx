@@ -26248,9 +26248,18 @@ PrefabInstance:
       value: Silla (14)
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: ff82dc70aed584949b6eb098e6d1c439, type: 3}
-
+<<<<<<< Updated upstream
       propertyPath: m_Layer
       value: 2
+=======
+<<<<<<< HEAD
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+=======
+      propertyPath: m_Layer
+      value: 2
+>>>>>>> 8d7f259237ac0eac93509dad25103f717edd7597
+>>>>>>> Stashed changes
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ff82dc70aed584949b6eb098e6d1c439, type: 3}
       propertyPath: m_LocalPosition.x
