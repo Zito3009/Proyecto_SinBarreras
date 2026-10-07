@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public Animator puerta;
     public GameObject cajaDeposito;
     public GameObject panelFlojoPersonaje2;
+    public GameObject panelInstruccionesFase2;
     public int minimoAprobadoFase2 = 10;
 
     private float tiempo;
@@ -167,5 +168,15 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+}
+public void MostrarInstruccionesFase2()
+{
+    panelMejora.SetActive(false);
+    panelInstruccionesFase2.SetActive(true);
+}
+public void ConfirmarInstruccionesYEmpezarFase2()
+{
+    panelInstruccionesFase2.SetActive(false);
+    EmpezarSegundaPerspectiva();
 }
 }
