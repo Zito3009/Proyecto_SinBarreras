@@ -76,7 +76,7 @@ public class UIController : MonoBehaviour
         MostrarSeleccionPersonaje();
     }
 
-    void MostrarSeleccionPersonaje()
+    public void MostrarSeleccionPersonaje()
     {
         panelLogin.SetActive(false);
         panelRegistro.SetActive(false);

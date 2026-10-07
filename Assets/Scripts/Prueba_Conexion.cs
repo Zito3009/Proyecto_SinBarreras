@@ -25,7 +25,6 @@ public class SupabaseAuthResponse
     public SupabaseUser user;
 }
 
-// Estructuras para enviar Nombre y Apellido a Supabase
 [System.Serializable]
 public class UserMetaData
 {
@@ -43,42 +42,32 @@ public class SignUpRequest
 
 public class Prueba_Conexion : MonoBehaviour
 {
+    [Header("Referencia al UIController")]
+    public UIController uiController; // Arrastrá el GameObject con UIController acá
+
     [Header("Credenciales Supabase")]
     public string supabaseUrl = "https://dwnovgbnqydetvjxfcmm.supabase.co";
     public string supabaseApiKey = "sb_publishable_DsiebBzA1MR1wdgT3yzXiQ_HkkYrCqE";
 
-    [Header("Paneles de UI")]
-    public GameObject Pantalla_Iniciosesion;
-    public GameObject Pantalla_Login;
-
     [Header("UI Registro (Crear Cuenta)")]
-    public TMP_InputField registroNombreInput;    // Campo Nombre
-    public TMP_InputField registroApellidoInput;  // Campo Apellido
+    public TMP_InputField registroNombreInput;    
+    public TMP_InputField registroApellidoInput;  
     public TMP_InputField registroMailInput;
     public TMP_InputField registroPasswordInput;
-    public TextMeshProUGUI registroMensajeText;
 
     [Header("UI Inicio de Sesión")]
     public TMP_InputField loginMailInput;
     public TMP_InputField loginPasswordInput;
-    public TextMeshProUGUI loginExitoText;
-    public TextMeshProUGUI loginErrorText;
-
-    void Start()
-    {
-        OcultarMensajes();
-    }
-
-    void OcultarMensajes()
-    {
-        if (registroMensajeText != null) registroMensajeText.gameObject.SetActive(false);
-        if (loginExitoText != null) loginExitoText.gameObject.SetActive(false);
-        if (loginErrorText != null) loginErrorText.gameObject.SetActive(false);
-    }
 
     public void OnClickRegistrar()
     {
-        OcultarMensajes();
+        // Validar que los campos no estén vacíos antes de enviar a Supabase
+        if (string.IsNullOrEmpty(registroMailInput.text) || string.IsNullOrEmpty(registroPasswordInput.text))
+        {
+            Debug.LogWarning("Completá mail y contraseña para registrarte.");
+            return;
+        }
+
         StartCoroutine(RegistrarUsuarioCorrutina(
             registroMailInput.text, 
             registroPasswordInput.text,
@@ -89,7 +78,12 @@ public class Prueba_Conexion : MonoBehaviour
 
     public void OnClickIniciarSesion()
     {
-        OcultarMensajes();
+        if (string.IsNullOrEmpty(loginMailInput.text) || string.IsNullOrEmpty(loginPasswordInput.text))
+        {
+            Debug.LogWarning("Completá mail y contraseña para iniciar sesión.");
+            return;
+        }
+
         StartCoroutine(IniciarSesionCorrutina(loginMailInput.text, loginPasswordInput.text));
     }
 
@@ -97,16 +91,11 @@ public class Prueba_Conexion : MonoBehaviour
     {
         string url = supabaseUrl + "/auth/v1/signup";
 
-        // Creamos la estructura con email, clave y metadatos
         SignUpRequest body = new SignUpRequest
         {
             email = email,
             password = password,
-            data = new UserMetaData
-            {
-                nombre = nombre,
-                apellido = apellido
-            }
+            data = new UserMetaData { nombre = nombre, apellido = apellido }
         };
 
         string jsonBody = JsonUtility.ToJson(body);
@@ -122,16 +111,19 @@ public class Prueba_Conexion : MonoBehaviour
 
             yield return request.SendWebRequest();
 
-            registroMensajeText.gameObject.SetActive(true);
-
             if (!request.isNetworkError && !request.isHttpError)
             {
-                registroMensajeText.text = "¡Cuenta creada con éxito!";
+                Debug.Log("¡Cuenta creada con éxito!");
+                
+                // Transición a la siguiente pantalla tras éxito
+                if (uiController != null)
+                {
+                    uiController.AbrirLogin(); // O directamente la pantalla que corresponda
+                }
             }
             else
             {
-                registroMensajeText.text = "Error al crear cuenta.";
-                Debug.LogError("Error registro: " + request.downloadHandler.text);
+                Debug.LogError("Error al crear cuenta: " + request.downloadHandler.text);
             }
         }
     }
@@ -154,19 +146,22 @@ public class Prueba_Conexion : MonoBehaviour
 
             if (!request.isNetworkError && !request.isHttpError)
             {
-                loginExitoText.gameObject.SetActive(true);
+                Debug.Log("¡Inicio de sesión exitoso!");
 
-                // 1. Extraer el ID de usuario devuelto por Supabase
+                // Guardar el logro
                 SupabaseAuthResponse authData = JsonUtility.FromJson<SupabaseAuthResponse>(request.downloadHandler.text);
-                string userId = authData.user.id;
+                StartCoroutine(GuardarLogroCorrutina(authData.user.id, "Primer Inicio de Sesión"));
 
-                // 2. Guardar el logro en la tabla logros_jugador
-                StartCoroutine(GuardarLogroCorrutina(userId, "Primer Inicio de Sesión"));
+                // Cambiar de pantalla SOLAMENTE si el login fue correcto
+                if (uiController != null)
+                {
+                    // Invocamos el método de UIController para avanzar
+                    uiController.SendMessage("MostrarSeleccionPersonaje", SendMessageOptions.DontRequireReceiver);
+                }
             }
             else
             {
-                loginErrorText.gameObject.SetActive(true);
-                Debug.LogError("Error login: " + request.downloadHandler.text);
+                Debug.LogError("Error en login: Datos incorrectos o usuario no registrado.");
             }
         }
     }
@@ -193,11 +188,11 @@ public class Prueba_Conexion : MonoBehaviour
 
             if (!request.isNetworkError && !request.isHttpError)
             {
-                Debug.Log($"¡Logro '{nombreLogro}' guardado con éxito en Supabase!");
+                Debug.Log($"¡Logro '{nombreLogro}' guardado con éxito!");
             }
             else
             {
-                Debug.LogError("Error al guardar el logro: " + request.downloadHandler.text);
+                Debug.LogError("Error al guardar logro: " + request.downloadHandler.text);
             }
         }
     }
