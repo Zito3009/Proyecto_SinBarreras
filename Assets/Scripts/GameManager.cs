@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public GameObject cajaDeposito;
     public GameObject panelFlojoPersonaje2;
     public GameObject panelInstruccionesFase2;
+    public GameObject flechaFase2;
     public int minimoAprobadoFase2 = 10;
 
     private float tiempo;
@@ -73,6 +74,9 @@ public class GameManager : MonoBehaviour
 
         if (flecha != null)
         flecha.SetActive(false);
+
+        if (flechaFase2 != null)
+        flechaFase2.SetActive(true);
 
         if (puerta != null)
     {
