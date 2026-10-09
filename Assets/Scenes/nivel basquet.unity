@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -764,7 +764,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1:00
+  m_text: 01:00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ed7cd8cfbcb358d41aba87e50df65af3, type: 2}
   m_sharedMaterial: {fileID: 21965576264222812, guid: ed7cd8cfbcb358d41aba87e50df65af3,
@@ -831,10 +831,10 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -202.52516, w: -132.08902}
+  m_margin: {x: -50.467003, y: 0, z: -202.52516, w: -132.08902}
   m_textInfo:
     textComponent: {fileID: 377659572}
-    characterCount: 4
+    characterCount: 5
     spriteCount: 0
     spaceCount: 0
     wordCount: 2
@@ -874,14 +874,14 @@ RectTransform:
   m_GameObject: {fileID: 377659571}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.82, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 677814803}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -66, y: 91}
+  m_AnchoredPosition: {x: -66, y: 85}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &414978187
@@ -1560,7 +1560,7 @@ RectTransform:
   m_GameObject: {fileID: 677814802}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.19, y: 0.14, z: 1}
+  m_LocalScale: {x: 0.22, y: 0.14, z: 1}
   m_Children:
   - {fileID: 377659574}
   m_Father: {fileID: 575947175}
@@ -1568,8 +1568,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -194, y: 113}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -163, y: 102.15}
+  m_SizeDelta: {x: 0, y: -0.30000305}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &677814804
 MonoBehaviour:
@@ -1921,7 +1921,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 188, y: 113}
+  m_AnchoredPosition: {x: 162, y: 102}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &871079850
@@ -2826,12 +2826,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   estado: 0
   esTriple: 0
+  lineasActivas: 0
   puntosObjetivo: 8
   intentosMaximos: 5
   lineasDoble: 6
   lineasTriple: 5
   tiempoPorIntento: 60
   escenaSiguiente: 
+  corredor: {fileID: 0}
   panelInstrucciones: {fileID: 1544052440}
   panelElegirTiro: {fileID: 1811707217}
   panelGanaste: {fileID: 1774932135}

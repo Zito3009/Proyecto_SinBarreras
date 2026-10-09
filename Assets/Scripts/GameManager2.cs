@@ -10,6 +10,7 @@ public class GameManager2 : MonoBehaviour
 
     public Estado estado;
     public bool esTriple;
+    public int lineasActivas;
 
     [Header("Reglas")]
     public int puntosObjetivo = 8;
@@ -18,6 +19,9 @@ public class GameManager2 : MonoBehaviour
     public int lineasTriple = 5;
     public float tiempoPorIntento = 60f;
     public string escenaSiguiente = ""; 
+
+    [Header("Jugador")]
+    public CorredorJugador corredor;
 
     [Header("Paneles")]
     public GameObject panelInstrucciones;
@@ -53,14 +57,18 @@ public class GameManager2 : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        panelElegirTiro.SetActive(false);
-        panelGanaste.SetActive(false);
-        panelGanasteMejor.SetActive(false);
-        panelGanasteCinco.SetActive(false);
-        panelPerdiste.SetActive(false);
+        if (panelElegirTiro != null) panelElegirTiro.SetActive(false);
+        if (panelGanaste != null) panelGanaste.SetActive(false);
+        if (panelGanasteMejor != null) panelGanasteMejor.SetActive(false);
+        if (panelGanasteCinco != null) panelGanasteCinco.SetActive(false);
+        if (panelPerdiste != null) panelPerdiste.SetActive(false);
+        if (panelInstrucciones != null) panelInstrucciones.SetActive(true);
         MostrarHUD(false);
         panelInstrucciones.SetActive(true);
         estado = Estado.Instrucciones;
+
+        AjustarEstadoCursor(false);
+        if (corredor != null) corredor.Detener();
 
         ActivarLineas(0);
         tiempoRestante = tiempoPorIntento;
@@ -69,11 +77,10 @@ public class GameManager2 : MonoBehaviour
     }
 
     void Update()
-    {
-        if (estado == Estado.Instrucciones || estado == Estado.ElegirTiro || estado == Estado.Fin)
+   {
+        if (estado != Estado.Corriendo && estado != Estado.Tirando)
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            AjustarEstadoCursor(false);
         }
 
         if (estado == Estado.Corriendo)
@@ -84,19 +91,25 @@ public class GameManager2 : MonoBehaviour
             if (tiempoRestante <= 0f)
             {
                 tiempoRestante = 0f;
-                TerminarIntento(false); // se pasó el minuto
-                return;
+                TerminarIntento(false); // Se acabó el tiempo
             }
-
-            // TEMPORAL para probar: C = tiro convertido, F = tiro fallado
+        }
+        else if (estado == Estado.Tirando)
+        {
+            // TEMPORAL: Teclas de prueba para tiro
             if (Input.GetKeyDown(KeyCode.C)) TerminarIntento(true);
             if (Input.GetKeyDown(KeyCode.F)) TerminarIntento(false);
         }
     }
 
+    void AjustarEstadoCursor(bool bloqueadoEnJuego)
+    {
+        Cursor.lockState = bloqueadoEnJuego ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !bloqueadoEnJuego;
+    }
+
     public void AceptarInstrucciones()
     {
-        Debug.Log("¡El botón funciona!");
         panelInstrucciones.SetActive(false);
         MostrarElegirTiro();
     }
@@ -105,8 +118,7 @@ public class GameManager2 : MonoBehaviour
     {
         estado = Estado.ElegirTiro;
         panelElegirTiro.SetActive(true);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        AjustarEstadoCursor(false);
     }
 
     public void ElegirDoble() { EmpezarIntento(false); }
@@ -116,17 +128,27 @@ public class GameManager2 : MonoBehaviour
     {
         esTriple = triple;
         panelElegirTiro.SetActive(false);
+        lineasActivas = triple ? lineasTriple : lineasDoble;
         ActivarLineas(triple ? lineasTriple : lineasDoble);
         tiempoRestante = tiempoPorIntento;
         ActualizarTextoTiempo();
         estado = Estado.Corriendo;
         MostrarHUD(true);
+        AjustarEstadoCursor(true);
+        if (corredor != null) corredor.Reiniciar();
+        estado = Estado.Corriendo;
     }
 
     void ActivarLineas(int cantidad)
     {
-        for (int i = 0; i < lineas.Length; i++)
-            lineas[i].SetActive(i < cantidad);
+        for (int i = 0; i < lineas.Length; i++){
+            if (lineas[i] != null)
+                lineas[i].SetActive(i < cantidad);}
+    }
+
+    public void LlegoAlFinal()
+    {
+        estado = Estado.Tirando;
     }
 
     public void TerminarIntento(bool convertido)
@@ -141,6 +163,8 @@ public class GameManager2 : MonoBehaviour
         ActualizarHUD();
         ActivarLineas(0);
         MostrarHUD(false);
+        if (corredor != null) corredor.Detener();
+        AjustarEstadoCursor(false);
 
         if (modoExtra)
         {
@@ -164,8 +188,6 @@ public class GameManager2 : MonoBehaviour
         {
             estado = Estado.Fin;
             panelPerdiste.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
             Time.timeScale = 0f;
         }
         else
@@ -184,8 +206,7 @@ public class GameManager2 : MonoBehaviour
 
         estado = Estado.Fin;
         panel.SetActive(true);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        AjustarEstadoCursor(false);
         Time.timeScale = 0f;
     }
 
@@ -193,8 +214,7 @@ public class GameManager2 : MonoBehaviour
     {
         estado = Estado.Fin;
         panelGanasteCinco.SetActive(true);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        AjustarEstadoCursor(false);
         Time.timeScale = 0f;
     }
 
@@ -217,7 +237,7 @@ public class GameManager2 : MonoBehaviour
     void ActualizarHUD()
     {
         if (textoPuntos != null)
-            textoPuntos.text = puntos >= puntosObjetivo ? "Puntos: " + puntos : "Puntos: " + puntos + " / " + puntosObjetivo;
+            textoPuntos.text = puntos + " / " + puntosObjetivo;
     }
 
     void MostrarHUD(bool mostrar)
