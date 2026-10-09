@@ -1052,6 +1052,7 @@ MonoBehaviour:
   uiController: {fileID: 439647716}
   supabaseUrl: https://dwnovgbnqydetvjxfcmm.supabase.co
   supabaseApiKey: sb_publishable_DsiebBzA1MR1wdgT3yzXiQ_HkkYrCqE
+  registroUsernameInput: {fileID: 1044683399}
   registroNombreInput: {fileID: 180384213}
   registroApellidoInput: {fileID: 563465723}
   registroMailInput: {fileID: 1009014949}

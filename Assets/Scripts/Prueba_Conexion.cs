@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
 
-
-
 [System.Serializable]
 public class LogroData
 {
@@ -30,6 +28,7 @@ public class SupabaseAuthResponse
 [System.Serializable]
 public class UserMetaData
 {
+    public string username;
     public string nombre;
     public string apellido;
 }
@@ -49,23 +48,47 @@ public class LoginRequest
     public string password;
 }
 
+[System.Serializable]
+public class JugadorEmailResponse
+{
+    public string email;
+}
+
+// Helper para convertir JSON Arrays en Unity
+public static class JsonHelper
+{
+    public static T[] FromJson<T>(string json)
+    {
+        string newJson = "{\"Items\":" + json + "}";
+        Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(newJson);
+        return wrapper != null ? wrapper.Items : null;
+    }
+
+    [System.Serializable]
+    private class Wrapper<T>
+    {
+        public T[] Items;
+    }
+}
+
 public class Prueba_Conexion : MonoBehaviour
 {
     [Header("Referencia al UIController")]
-    public UIController uiController; // Arrastrá el GameObject con UIController acá
+    public UIController uiController;
 
     [Header("Credenciales Supabase")]
     public string supabaseUrl = "https://dwnovgbnqydetvjxfcmm.supabase.co";
     public string supabaseApiKey = "sb_publishable_DsiebBzA1MR1wdgT3yzXiQ_HkkYrCqE";
 
     [Header("UI Registro (Crear Cuenta)")]
+    public TMP_InputField registroUsernameInput;
     public TMP_InputField registroNombreInput;
     public TMP_InputField registroApellidoInput;
     public TMP_InputField registroMailInput;
     public TMP_InputField registroPasswordInput;
 
     [Header("UI Inicio de Sesión")]
-    public TMP_InputField loginMailInput;
+    public TMP_InputField loginMailInput; // Podés ingresar mail O username acá
     public TMP_InputField loginPasswordInput;
 
     // --- MÉTODOS PÚBLICOS PARA LOS BOTONES ---
@@ -80,6 +103,7 @@ public class Prueba_Conexion : MonoBehaviour
 
         string email = registroMailInput.text.Trim();
         string password = registroPasswordInput.text;
+        string username = registroUsernameInput != null ? registroUsernameInput.text.Trim() : "";
         string nombre = registroNombreInput != null ? registroNombreInput.text.Trim() : "";
         string apellido = registroApellidoInput != null ? registroApellidoInput.text.Trim() : "";
 
@@ -89,7 +113,7 @@ public class Prueba_Conexion : MonoBehaviour
             return;
         }
 
-        StartCoroutine(RegistrarUsuarioCorrutina(email, password, nombre, apellido));
+        StartCoroutine(RegistrarUsuarioCorrutina(email, password, username, nombre, apellido));
     }
 
     public void OnClickIniciarSesion()
@@ -100,21 +124,69 @@ public class Prueba_Conexion : MonoBehaviour
             return;
         }
 
-        string email = loginMailInput.text.Trim();
+        string inputUsuario = loginMailInput.text.Trim();
         string password = loginPasswordInput.text;
 
-        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+        if (string.IsNullOrEmpty(inputUsuario) || string.IsNullOrEmpty(password))
         {
-            Debug.LogWarning("Completá mail y contraseña para iniciar sesión.");
+            Debug.LogWarning("Completá usuario/mail y contraseña para iniciar sesión.");
             return;
         }
 
-        StartCoroutine(IniciarSesionCorrutina(email, password));
+        // Si el texto contiene '@', es un correo. De lo contrario, se busca el email por Username.
+        if (inputUsuario.Contains("@"))
+        {
+            StartCoroutine(IniciarSesionCorrutina(inputUsuario, password));
+        }
+        else
+        {
+            StartCoroutine(BuscarEmailYIniciarSesionCorrutina(inputUsuario, password));
+        }
+    }
+
+    // --- CORRUTINA PARA BUSCAR EMAIL POR USERNAME ---
+
+    IEnumerator BuscarEmailYIniciarSesionCorrutina(string username, string password)
+    {
+        string url = supabaseUrl + "/rest/v1/jugadores?username=eq." + UnityWebRequest.EscapeURL(username) + "&select=email";
+
+        using (UnityWebRequest request = UnityWebRequest.Get(url))
+        {
+            request.SetRequestHeader("apikey", supabaseApiKey);
+            request.SetRequestHeader("Authorization", "Bearer " + supabaseApiKey);
+
+            yield return request.SendWebRequest();
+
+#if UNITY_2020_1_OR_NEWER
+            bool isError = request.result != UnityWebRequest.Result.Success;
+#else
+            bool isError = request.isNetworkError || request.isHttpError;
+#endif
+
+            if (!isError)
+            {
+                JugadorEmailResponse[] jugadores = JsonHelper.FromJson<JugadorEmailResponse>(request.downloadHandler.text);
+
+                if (jugadores != null && jugadores.Length > 0 && !string.IsNullOrEmpty(jugadores[0].email))
+                {
+                    string emailEncontrado = jugadores[0].email;
+                    StartCoroutine(IniciarSesionCorrutina(emailEncontrado, password));
+                }
+                else
+                {
+                    Debug.LogError("No se encontró ningún usuario con el username: " + username);
+                }
+            }
+            else
+            {
+                Debug.LogError("Error al consultar el username [" + request.responseCode + "]: " + request.downloadHandler.text);
+            }
+        }
     }
 
     // --- CORRUTINAS DE AUTENTICACIÓN ---
 
-    IEnumerator RegistrarUsuarioCorrutina(string email, string password, string nombre, string apellido)
+    IEnumerator RegistrarUsuarioCorrutina(string email, string password, string username, string nombre, string apellido)
     {
         string url = supabaseUrl + "/auth/v1/signup";
 
@@ -122,7 +194,7 @@ public class Prueba_Conexion : MonoBehaviour
         {
             email = email,
             password = password,
-            data = new UserMetaData { nombre = nombre, apellido = apellido }
+            data = new UserMetaData { username = username, nombre = nombre, apellido = apellido }
         };
 
         string jsonBody = JsonUtility.ToJson(body);
@@ -146,9 +218,8 @@ public class Prueba_Conexion : MonoBehaviour
 
             if (!isError)
             {
-                Debug.Log("¡Cuenta creada con éxito! Revisá tu casilla de correo para confirmarla.");
+                Debug.Log("¡Cuenta creada con éxito!");
 
-                // Redirigir a la pantalla de Login tras registrarse
                 if (uiController != null)
                 {
                     uiController.MostrarSeleccionPersonaje();
@@ -196,13 +267,11 @@ public class Prueba_Conexion : MonoBehaviour
 
                 SupabaseAuthResponse authData = JsonUtility.FromJson<SupabaseAuthResponse>(request.downloadHandler.text);
 
-                // Guardar logro inicial del usuario
                 if (authData != null && authData.user != null)
                 {
                     StartCoroutine(GuardarLogroCorrutina(authData.user.id, "Primer Inicio de Sesión", authData.access_token));
                 }
 
-                // Transición a la pantalla de Selección de Personaje
                 if (uiController != null)
                 {
                     uiController.MostrarSeleccionPersonaje();
@@ -210,7 +279,6 @@ public class Prueba_Conexion : MonoBehaviour
             }
             else
             {
-                // Muestra el motivo exacto enviado por Supabase en la Consola
                 Debug.LogError("Error en login [" + request.responseCode + "]: " + request.downloadHandler.text);
             }
         }
@@ -234,7 +302,6 @@ public class Prueba_Conexion : MonoBehaviour
             request.SetRequestHeader("Content-Type", "application/json");
             request.SetRequestHeader("apikey", supabaseApiKey);
 
-            // Usar el token JWT del usuario para autenticar la inserción en la base de datos
             string bearerToken = !string.IsNullOrEmpty(userToken) ? userToken : supabaseApiKey;
             request.SetRequestHeader("Authorization", "Bearer " + bearerToken);
             request.SetRequestHeader("Prefer", "return=minimal");
