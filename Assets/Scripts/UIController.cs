@@ -1,26 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class UIController : MonoBehaviour
 {
+    [Header("Referencia al Backend")]
+    public Prueba_Conexion pruebaConexion; // Arrastrá el GameObject con Prueba_Conexion acá
+
     [Header("Paneles")]
     public GameObject panelInicio;
     public GameObject panelLogin;
     public GameObject panelRegistro;
     public GameObject panelSeleccionPersonaje;
-
-    [Header("Inputs Registro")]
-    public TMP_InputField registroUsuarioOMail;
-    public TMP_InputField registroContrasena;
-
-    [Header("Inputs Login")]
-    public TMP_InputField loginNombre;
-    public TMP_InputField loginApellido;
-    public TMP_InputField loginMail;
-    public TMP_InputField loginUsuario;
-    public TMP_InputField loginContrasena;
 
     void Start()
     {
@@ -34,15 +25,18 @@ public class UIController : MonoBehaviour
         panelSeleccionPersonaje.SetActive(false);
     }
 
+    // --- NAVEGACIÓN DE PANELES ---
     public void AbrirLogin()
     {
         panelInicio.SetActive(false);
+        panelRegistro.SetActive(false);
         panelLogin.SetActive(true);
     }
 
     public void AbrirRegistro()
     {
         panelInicio.SetActive(false);
+        panelLogin.SetActive(false);
         panelRegistro.SetActive(true);
     }
 
@@ -53,31 +47,36 @@ public class UIController : MonoBehaviour
         panelRegistro.SetActive(false);
     }
 
+    // --- PUENTE HACIA SUPABASE ---
+    // Si tus botones Aceptar ya llamaban a ConfirmarRegistro/ConfirmarLogin, ahora redirigen a Prueba_Conexion
     public void ConfirmarRegistro()
     {
-        if (string.IsNullOrEmpty(registroUsuarioOMail.text) || string.IsNullOrEmpty(registroContrasena.text))
+        if (pruebaConexion != null)
         {
-            Debug.Log("Completá usuario/mail y contraseña.");
-            return;
+            pruebaConexion.OnClickRegistrar();
         }
-        MostrarSeleccionPersonaje();
+        else
+        {
+            Debug.LogError("Falta asignar el componente 'Prueba_Conexion' en el Inspector de UIController.");
+        }
     }
 
     public void ConfirmarLogin()
     {
-        bool tieneMailOUsuario = !string.IsNullOrEmpty(loginMail.text) || !string.IsNullOrEmpty(loginUsuario.text);
-
-        if (string.IsNullOrEmpty(loginNombre.text) || string.IsNullOrEmpty(loginApellido.text) ||
-            !tieneMailOUsuario || string.IsNullOrEmpty(loginContrasena.text))
+        if (pruebaConexion != null)
         {
-            Debug.Log("Completá todos los campos requeridos.");
-            return;
+            pruebaConexion.OnClickIniciarSesion();
         }
-        MostrarSeleccionPersonaje();
+        else
+        {
+            Debug.LogError("Falta asignar el componente 'Prueba_Conexion' en el Inspector de UIController.");
+        }
     }
 
+    // --- CAMBIO DE PANTALLA TRAS RESPUESTA EXITOSA DE SUPABASE ---
     public void MostrarSeleccionPersonaje()
     {
+        panelInicio.SetActive(false);
         panelLogin.SetActive(false);
         panelRegistro.SetActive(false);
         panelSeleccionPersonaje.SetActive(true);

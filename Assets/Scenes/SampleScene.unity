@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5729,17 +5729,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ad5f8d5ee67c046ba7050d04b5bdb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pruebaConexion: {fileID: 42769265}
   panelInicio: {fileID: 414596556}
   panelLogin: {fileID: 1109671087}
   panelRegistro: {fileID: 1345975029}
   panelSeleccionPersonaje: {fileID: 19498591}
-  registroUsuarioOMail: {fileID: 442743117}
-  registroContrasena: {fileID: 1796539394}
-  loginNombre: {fileID: 180384213}
-  loginApellido: {fileID: 563465723}
-  loginMail: {fileID: 1009014949}
-  loginUsuario: {fileID: 1044683399}
-  loginContrasena: {fileID: 816478102}
 --- !u!4 &439647717
 Transform:
   m_ObjectHideFlags: 0
@@ -14300,8 +14294,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 42769265}
-        m_MethodName: OnClickRegistrar
+      - m_Target: {fileID: 439647716}
+        m_MethodName: ConfirmarRegistro
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16595,8 +16589,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 42769265}
-        m_MethodName: OnClickIniciarSesion
+      - m_Target: {fileID: 439647716}
+        m_MethodName: ConfirmarLogin
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
