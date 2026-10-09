@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
 
-// --- ESTRUCTURAS DE DATOS (JSON) ---
+
 
 [System.Serializable]
 public class LogroData
@@ -151,7 +151,7 @@ public class Prueba_Conexion : MonoBehaviour
                 // Redirigir a la pantalla de Login tras registrarse
                 if (uiController != null)
                 {
-                    uiController.AbrirLogin();
+                    uiController.MostrarSeleccionPersonaje();
                 }
             }
             else
