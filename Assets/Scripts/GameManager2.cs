@@ -16,7 +16,8 @@ public class GameManager2 : MonoBehaviour
     public int intentosMaximos = 5;
     public int lineasDoble = 6;
     public int lineasTriple = 5;
-    public string escenaSiguiente = ""; // nombre de la escena del siguiente nivel (cuando exista)
+    public float tiempoPorIntento = 60f;
+    public string escenaSiguiente = ""; 
 
     [Header("Paneles")]
     public GameObject panelInstrucciones;
@@ -26,6 +27,7 @@ public class GameManager2 : MonoBehaviour
     public GameObject panelGanasteCinco;
     public GameObject panelPerdiste;
     public GameObject panelPuntaje;
+    public GameObject panelTiempo;
 
     [Header("Botón 'Seguir jugando' de cada cartel que lo tiene")]
     public GameObject botonSeguirGanaste;
@@ -33,16 +35,17 @@ public class GameManager2 : MonoBehaviour
 
     [Header("HUD")]
     public TextMeshProUGUI textoPuntos;
-    public TextMeshProUGUI textoIntentos;
+    public TextMeshProUGUI textoTiempo;
 
     [Header("Cancha")]
-    public GameObject[] lineas; // array que se como usarlo
+    public GameObject[] lineas;
 
     private int puntos;
     private int intentosUsados;
     private bool huboFallo;
     private bool ganoMejor;
     private bool modoExtra;
+    private float tiempoRestante;
 
     void Start()
     {
@@ -55,18 +58,37 @@ public class GameManager2 : MonoBehaviour
         panelGanasteMejor.SetActive(false);
         panelGanasteCinco.SetActive(false);
         panelPerdiste.SetActive(false);
+        MostrarHUD(false);
         panelInstrucciones.SetActive(true);
         estado = Estado.Instrucciones;
 
         ActivarLineas(0);
+        tiempoRestante = tiempoPorIntento;
+        ActualizarTextoTiempo();
         ActualizarHUD();
     }
 
     void Update()
     {
-        // TEMPORAL para probar las reglas: C = tiro convertido, F = tiro fallado. Borrar más adelante.
+        if (estado == Estado.Instrucciones || estado == Estado.ElegirTiro || estado == Estado.Fin)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
         if (estado == Estado.Corriendo)
         {
+            tiempoRestante -= Time.deltaTime;
+            ActualizarTextoTiempo();
+
+            if (tiempoRestante <= 0f)
+            {
+                tiempoRestante = 0f;
+                TerminarIntento(false); // se pasó el minuto
+                return;
+            }
+
+            // TEMPORAL para probar: C = tiro convertido, F = tiro fallado
             if (Input.GetKeyDown(KeyCode.C)) TerminarIntento(true);
             if (Input.GetKeyDown(KeyCode.F)) TerminarIntento(false);
         }
@@ -74,6 +96,7 @@ public class GameManager2 : MonoBehaviour
 
     public void AceptarInstrucciones()
     {
+        Debug.Log("¡El botón funciona!");
         panelInstrucciones.SetActive(false);
         MostrarElegirTiro();
     }
@@ -82,6 +105,8 @@ public class GameManager2 : MonoBehaviour
     {
         estado = Estado.ElegirTiro;
         panelElegirTiro.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void ElegirDoble() { EmpezarIntento(false); }
@@ -92,7 +117,10 @@ public class GameManager2 : MonoBehaviour
         esTriple = triple;
         panelElegirTiro.SetActive(false);
         ActivarLineas(triple ? lineasTriple : lineasDoble);
+        tiempoRestante = tiempoPorIntento;
+        ActualizarTextoTiempo();
         estado = Estado.Corriendo;
+        MostrarHUD(true);
     }
 
     void ActivarLineas(int cantidad)
@@ -100,7 +128,6 @@ public class GameManager2 : MonoBehaviour
         for (int i = 0; i < lineas.Length; i++)
             lineas[i].SetActive(i < cantidad);
     }
-
 
     public void TerminarIntento(bool convertido)
     {
@@ -113,6 +140,7 @@ public class GameManager2 : MonoBehaviour
 
         ActualizarHUD();
         ActivarLineas(0);
+        MostrarHUD(false);
 
         if (modoExtra)
         {
@@ -136,6 +164,8 @@ public class GameManager2 : MonoBehaviour
         {
             estado = Estado.Fin;
             panelPerdiste.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             Time.timeScale = 0f;
         }
         else
@@ -149,12 +179,13 @@ public class GameManager2 : MonoBehaviour
         GameObject panel = ganoMejor ? panelGanasteMejor : panelGanaste;
         GameObject botonSeguir = ganoMejor ? botonSeguirGanasteMejor : botonSeguirGanaste;
 
-
         if (botonSeguir != null)
             botonSeguir.SetActive(conBotonSeguir);
 
         estado = Estado.Fin;
         panel.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Time.timeScale = 0f;
     }
 
@@ -162,6 +193,8 @@ public class GameManager2 : MonoBehaviour
     {
         estado = Estado.Fin;
         panelGanasteCinco.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Time.timeScale = 0f;
     }
 
@@ -185,13 +218,24 @@ public class GameManager2 : MonoBehaviour
     {
         if (textoPuntos != null)
             textoPuntos.text = puntos >= puntosObjetivo ? "Puntos: " + puntos : "Puntos: " + puntos + " / " + puntosObjetivo;
-        if (textoIntentos != null)
-            textoIntentos.text = "Intento: " + Mathf.Min(intentosUsados + 1, intentosMaximos) + " / " + intentosMaximos;
+    }
+
+    void MostrarHUD(bool mostrar)
+    {
+        if (panelTiempo != null) panelTiempo.SetActive(mostrar);
+        if (panelPuntaje != null) panelPuntaje.SetActive(mostrar);
     }
 
     public void ReiniciarNivel()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    void ActualizarTextoTiempo()
+    {
+        if (textoTiempo == null) return;
+        int total = Mathf.CeilToInt(tiempoRestante);
+        textoTiempo.text = string.Format("{0:00}:{1:00}", total / 60, total % 60);
     }
 }
