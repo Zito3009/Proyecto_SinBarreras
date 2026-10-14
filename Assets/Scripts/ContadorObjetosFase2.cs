@@ -14,7 +14,7 @@ public class ContadorObjetosFase2 : MonoBehaviour
     public GameManager gameManager;
 
     private float tiempoRestante;
-    private int objetosMovidos;
+    public int objetosMovidos;
     private bool faseActiva;
 
     public void IniciarFase()

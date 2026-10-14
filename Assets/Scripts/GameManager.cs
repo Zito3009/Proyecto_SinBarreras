@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     private float tiempo;
     private bool termino;
+    private bool esfase2;
 
     private List<ObjetoAgarrable> objetosFase2 = new List<ObjetoAgarrable>();
     private Dictionary<ObjetoAgarrable, Vector3> posicionesOriginales = new Dictionary<ObjetoAgarrable, Vector3>();
@@ -42,7 +43,13 @@ public class GameManager : MonoBehaviour
     {
         termino = true;
         PausarYMostrarCursor();
-        panelPerdiste.SetActive(true);
+        
+        if (esfase2 == true){
+            FinalizarFase2(contadorFase2.objetosMovidos,15);
+        }else
+        {
+            panelPerdiste.SetActive(true);
+        }
     }
 
     // Se ejecuta al tocar la puerta
@@ -92,7 +99,7 @@ public class GameManager : MonoBehaviour
         personaje2.transform.position = posInicio.position;
         personaje2.SetActive(true);
 
-        camaraJugador.objetivo = personaje2.transform;
+        
         controladorAgarrarPersonaje2.enabled = true;
 
          objetosFase2.Clear();
@@ -122,17 +129,18 @@ public class GameManager : MonoBehaviour
     
      public void FinalizarFase2(int objetosMovidos, int maximoObjetos)
     {
+        maximoObjetos = 15;
         PausarYMostrarCursor();
 
          if (objetosMovidos < minimoAprobadoFase2)
         {
             panelFlojoPersonaje2.SetActive(true);
         }
-        else if (objetosMovidos >= maximoObjetos)
+        else if (objetosMovidos == maximoObjetos)
         {
             panelGanasteMejorPersonaje2.SetActive(true);
         }
-        else
+        else 
         {
             panelGanastePersonaje2.SetActive(true);
         }
