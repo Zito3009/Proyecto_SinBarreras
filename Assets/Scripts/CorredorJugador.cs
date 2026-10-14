@@ -16,12 +16,17 @@ public class CorredorJugador : MonoBehaviour
     public Transform puntoInicio;
     public GameManager2 gestor;
 
+    private CharacterController controller;
     private int carrilActual = 1; // 0 = izquierda, 1 = centro, 2 = derecha
     private bool corriendo;
     private bool chocando;
     private float xCentro;
     private Vector3 ultimoCheckpoint;
-
+    
+    void Awake()
+    {
+        controller = GetComponent<CharacterController>();
+    }
     void Start()
     {
         xCentro = puntoInicio.position.x;
@@ -66,7 +71,24 @@ public class CorredorJugador : MonoBehaviour
         float x = Mathf.MoveTowards(transform.position.x, xObjetivo, velocidadCambioCarril * Time.deltaTime);
         float z = transform.position.z + velocidad * Time.deltaTime;
 
-        transform.position = new Vector3(x, transform.position.y, z);
+        IrA(new Vector3(x, transform.position.y, z));
+    }
+
+    // Movimiento normal: con CharacterController usa Move (respeta colisiones), sin él cambia la posición directo
+    void IrA(Vector3 destino)
+    {
+        if (controller != null)
+            controller.Move(destino - transform.position);
+        else
+            transform.position = destino;
+    }
+
+    // Salto instantáneo de posición (inicio de intento y vuelta al checkpoint)
+    void Teletransportar(Vector3 destino)
+    {
+        if (controller != null) controller.enabled = false; // un CharacterController activo "pelea" contra el cambio directo de posición
+        transform.position = destino;
+        if (controller != null) controller.enabled = true;
     }
 
     void OnTriggerEnter(Collider other)
@@ -98,7 +120,7 @@ public class CorredorJugador : MonoBehaviour
         yield return new WaitForSeconds(tiempoChoque);
 
         carrilActual = 1;
-        transform.position = new Vector3(xCentro, transform.position.y, ultimoCheckpoint.z);
+        Teletransportar(new Vector3(xCentro, transform.position.y, ultimoCheckpoint.z));
         chocando = false;
     }
 }
