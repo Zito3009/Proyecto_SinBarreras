@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     private float tiempo;
     private bool termino;
-    private bool esfase2;
+    private bool esFase2 = false;
 
     private List<ObjetoAgarrable> objetosFase2 = new List<ObjetoAgarrable>();
     private Dictionary<ObjetoAgarrable, Vector3> posicionesOriginales = new Dictionary<ObjetoAgarrable, Vector3>();
@@ -44,11 +44,19 @@ public class GameManager : MonoBehaviour
         termino = true;
         PausarYMostrarCursor();
         
-        if (esfase2 == true){
-            FinalizarFase2(contadorFase2.objetosMovidos,15);
-        }else
+        if (esFase2)
         {
-            panelPerdiste.SetActive(true);
+            if (panelFlojoPersonaje2 != null)
+            {
+                panelFlojoPersonaje2.SetActive(true);
+            }
+        }
+        else
+        {
+            if (panelPerdiste != null)
+            {
+                panelPerdiste.SetActive(true);
+            }
         }
     }
 
@@ -68,7 +76,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator EsperarMejora()
     {
-        yield return new WaitForSecondsRealtime(5f); 
+        yield return new WaitForSecondsRealtime(5f);
         panelGanaste.SetActive(false);
         panelGanasteMejor.SetActive(false);
         panelMejora.SetActive(true);
@@ -80,29 +88,42 @@ public class GameManager : MonoBehaviour
         panelMejora.SetActive(false);
 
         if (flecha != null)
-        flecha.SetActive(false);
+            flecha.SetActive(false);
 
         if (flechaFase2 != null)
-        flechaFase2.SetActive(true);
-
+            flechaFase2.SetActive(true);
+           
         if (puerta != null)
-    {
-        puerta.Play("Abrir", 0, 0f);   // fuerza el frame 0 (puerta cerrada)
-        puerta.Update(0f);              // aplica esa pose ya mismo
-        puerta.enabled = false;         // y la deja congelada ahí, cerrada
-    }
-    if (panelContador != null)
-        panelContador.SetActive(true);
+        {
+            puerta.Play("Abrir", 0, 0f);   // fuerza el frame 0 (puerta cerrada)
+            puerta.Update(0f);              // aplica esa pose ya mismo
+            puerta.enabled = false;         // y la deja congelada ahí, cerrada
+        }
+        if (panelContador != null)
+            panelContador.SetActive(true);
 
         // Cambiar personajes y posicionar al 2 en el inicio
         personaje1.SetActive(false);
         personaje2.transform.position = posInicio.position;
         personaje2.SetActive(true);
 
-        
+        if(panelGanaste != null)
+        {
+            panelGanaste.SetActive(false);
+        }
+        if (panelGanasteMejor != null)
+        {
+            panelGanasteMejor.SetActive(false);
+        }
+        if (panelPerdiste != null)
+        {
+            panelPerdiste.SetActive(false);
+        }
+
+
         controladorAgarrarPersonaje2.enabled = true;
 
-         objetosFase2.Clear();
+        objetosFase2.Clear();
         posicionesOriginales.Clear();
         rotacionesOriginales.Clear();
         foreach (ObjetoAgarrable obj in FindObjectsOfType<ObjetoAgarrable>())
@@ -112,11 +133,12 @@ public class GameManager : MonoBehaviour
             rotacionesOriginales[obj] = obj.transform.rotation;
         }
 
-        contadorFase2.IniciarFase(); 
+        contadorFase2.IniciarFase();
 
         // Reiniciar variables
         tiempo = 0;
         termino = false;
+        esFase2 = true;
 
         // Ocultar cursor y reanudar juego
         Cursor.lockState = CursorLockMode.Locked;
@@ -124,19 +146,19 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
 
         if (cajaDeposito != null)
-         cajaDeposito.SetActive(true);
+            cajaDeposito.SetActive(true);
     }
-    
-     public void FinalizarFase2(int objetosMovidos, int maximoObjetos)
+
+    public void FinalizarFase2(int objetosMovidos, int maximoObjetos)
     {
-        maximoObjetos = 15;
+        
         PausarYMostrarCursor();
 
-         if (objetosMovidos < minimoAprobadoFase2)
+        if (objetosMovidos < minimoAprobadoFase2)
         {
             panelFlojoPersonaje2.SetActive(true);
         }
-        else if (objetosMovidos == maximoObjetos)
+        else if (objetosMovidos >= maximoObjetos)
         {
             panelGanasteMejorPersonaje2.SetActive(true);
         }
@@ -169,7 +191,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-     public void SiguienteNivel()
+    public void SiguienteNivel()
     {
         Debug.Log("Falta definir la escena del siguiente nivel.");
         // TODO: SceneManager.LoadScene("NombreDelSiguienteNivel");
@@ -180,15 +202,15 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-}
-public void MostrarInstruccionesFase2()
-{
-    panelMejora.SetActive(false);
-    panelInstruccionesFase2.SetActive(true);
-}
-public void ConfirmarInstruccionesYEmpezarFase2()
-{
-    panelInstruccionesFase2.SetActive(false);
-    EmpezarSegundaPerspectiva();
-}
+    }
+    public void MostrarInstruccionesFase2()
+    {
+        panelMejora.SetActive(false);
+        panelInstruccionesFase2.SetActive(true);
+    }
+    public void ConfirmarInstruccionesYEmpezarFase2()
+    {
+        panelInstruccionesFase2.SetActive(false);
+        EmpezarSegundaPerspectiva();
+    }
 }
