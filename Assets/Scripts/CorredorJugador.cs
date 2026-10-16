@@ -18,9 +18,7 @@ public class CorredorJugador : MonoBehaviour
 
     private int carrilActual = 1; // 0 = izquierda, 1 = centro, 2 = derecha
     private bool corriendo;
-    private bool chocando;
     private float xCentro;
-    private Vector3 ultimoCheckpoint;
     
     void Start()
     {
@@ -35,7 +33,6 @@ public class CorredorJugador : MonoBehaviour
     public void Reiniciar()
     {
         StopAllCoroutines();
-        chocando = false;
         ColocarEnInicio();
         corriendo = true;
     }
@@ -44,7 +41,6 @@ public class CorredorJugador : MonoBehaviour
     public void Detener()
     {
         StopAllCoroutines();
-        chocando = false;
         corriendo = false;
     }
 
@@ -54,14 +50,13 @@ public class CorredorJugador : MonoBehaviour
         carrilActual = 1;
         if (puntoInicio != null)
         {
-            ultimoCheckpoint = puntoInicio.position;
             transform.position = new Vector3(xCentro, transform.position.y, puntoInicio.position.z);
         }
     }
 
     void Update()
     {
-        if (!corriendo || chocando) return;
+        if (!corriendo) return;
 
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
             carrilActual = Mathf.Max(0, carrilActual - 1);
@@ -77,34 +72,27 @@ public class CorredorJugador : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (!corriendo || chocando) return;
+        if (!corriendo) return;
 
         if (other.CompareTag("Defensor"))
         {
-            StartCoroutine(Chocar());
+           corriendo = false; 
+
+            if (gestor != null)
+            {
+                gestor.TerminarIntento(false); 
+            }
             return;
         }
 
         ZonaDescanso zona = other.GetComponent<ZonaDescanso>();
         if (zona != null)
         {
-            ultimoCheckpoint = zona.transform.position;
-
             if (gestor != null && zona.numeroLinea >= gestor.lineasActivas)
             {
                 corriendo = false;
                 gestor.LlegoAlFinal();
             }
         }
-    }
-
-    IEnumerator Chocar()
-    {
-        chocando = true;
-        yield return new WaitForSeconds(tiempoChoque);
-
-        carrilActual = 1;
-        transform.position = new Vector3(xCentro, transform.position.y, ultimoCheckpoint.z);
-        chocando = false;
     }
 }
