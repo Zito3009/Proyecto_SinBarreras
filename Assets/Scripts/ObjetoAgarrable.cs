@@ -6,8 +6,8 @@ using UnityEngine;
 public class ObjetoAgarrable : MonoBehaviour
 {
     private Rigidbody rb;
-    private Renderer miRender;
-    private Collider miCollider;
+    private Renderer[] misRenderers;
+    private Collider[] miCollider;
     private Color colorOriginal;
 
     private bool estoyAgarrado = false;
@@ -19,12 +19,12 @@ public class ObjetoAgarrable : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        miRender = GetComponent<Renderer>();
-        miCollider = GetComponent<Collider>();
+        misRenderers = GetComponentsInChildren<Renderer>();
+        miCollider = GetComponentsInChildren<Collider>();
 
-        if (miRender != null)
+        if (misRenderers != null)
         {
-            colorOriginal = miRender.material.color;
+            colorOriginal = misRenderers.material.color;
         }
     }
 
@@ -41,8 +41,8 @@ public class ObjetoAgarrable : MonoBehaviour
 
     public void Resaltar(bool activar)
     {
-        if (miRender == null) return;
-        miRender.material.color = activar ? colorResaltado : colorOriginal;
+        if (misRenderers == null) return;
+        misRenderers.material.color = activar ? colorResaltado : colorOriginal;
     }
 
     public void Agarrar(Transform mano)
