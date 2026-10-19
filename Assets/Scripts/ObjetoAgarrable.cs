@@ -6,9 +6,11 @@ using UnityEngine;
 public class ObjetoAgarrable : MonoBehaviour
 {
     private Rigidbody rb;
+
+    // Cambiamos a arreglos [] para guardar todas las partes del objeto
+    private Collider[] misColliders;
     private Renderer[] misRenderers;
-    private Collider[] miCollider;
-    private Color colorOriginal;
+    private List<Color> coloresOriginales = new List<Color>();
 
     private bool estoyAgarrado = false;
     private Transform puntoEnMano;
@@ -19,21 +21,27 @@ public class ObjetoAgarrable : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        misRenderers = GetComponentsInChildren<Renderer>();
-        miCollider = GetComponentsInChildren<Collider>();
 
-        if (misRenderers != null)
+        // Obtenemos todos los Colliders y Renderers del objeto y de sus hijos (cuerpo, cierres, tiras, etc.)
+        misColliders = GetComponentsInChildren<Collider>();
+        misRenderers = GetComponentsInChildren<Renderer>();
+
+        // Guardamos el color original de cada parte por separado
+        coloresOriginales.Clear();
+        foreach (Renderer r in misRenderers)
         {
-            colorOriginal = misRenderers.material.color;
+            if (r != null && r.material != null)
+            {
+                coloresOriginales.Add(r.material.color);
+            }
         }
     }
 
-    // Usamos FixedUpdate porque los Rigidbody se mueven en el ciclo de física
     void FixedUpdate()
     {
         if (estoyAgarrado && puntoEnMano != null)
         {
-            // Forzamos al Rigidbody a moverse directamente a la posición de la mano
+            // Movemos el Rigidbody hacia la posición y rotación de la mano
             rb.MovePosition(puntoEnMano.position);
             rb.MoveRotation(puntoEnMano.rotation);
         }
@@ -41,8 +49,16 @@ public class ObjetoAgarrable : MonoBehaviour
 
     public void Resaltar(bool activar)
     {
-        if (misRenderers == null) return;
-        misRenderers.material.color = activar ? colorResaltado : colorOriginal;
+        if (misRenderers == null || misRenderers.Length == 0) return;
+
+        // Recorremos cada parte y le asignamos su color (resaltado u original)
+        for (int i = 0; i < misRenderers.Length; i++)
+        {
+            if (misRenderers[i] != null && i < coloresOriginales.Count)
+            {
+                misRenderers[i].material.color = activar ? colorResaltado : coloresOriginales[i];
+            }
+        }
     }
 
     public void Agarrar(Transform mano)
@@ -50,17 +66,18 @@ public class ObjetoAgarrable : MonoBehaviour
         estoyAgarrado = true;
         puntoEnMano = mano;
 
-        // Mantenemos isKinematic en true para que la física no lo atraiga al suelo
         rb.isKinematic = true;
         rb.useGravity = false;
 
-        // Desactivamos el colisionador para evitar que choque con el personaje
-        if (miCollider != null) 
+        // Desactivamos todos los colisionadores para que no choque con el jugador
+        if (misColliders != null)
         {
-            miCollider.enabled = false;
+            foreach (Collider col in misColliders)
+            {
+                if (col != null) col.enabled = false;
+            }
         }
 
-        // Posicionamos el objeto inmediatamente en la mano
         transform.position = mano.position;
         transform.rotation = mano.rotation;
     }
@@ -70,23 +87,26 @@ public class ObjetoAgarrable : MonoBehaviour
         estoyAgarrado = false;
         puntoEnMano = null;
 
-        // Reactivamos físicas y gravedad
         rb.isKinematic = false;
         rb.useGravity = true;
 
-        // Reactivamos colisionador
-        if (miCollider != null) 
+        // Reactivamos todos los colisionadores al soltar
+        if (misColliders != null)
         {
-            miCollider.enabled = true;
+            foreach (Collider col in misColliders)
+            {
+                if (col != null) col.enabled = true;
+            }
         }
 
         Resaltar(false);
     }
-     private bool yaDepositado = false;
+
+    private bool yaDepositado = false;
 
     public bool PuedeContarseComoDepositado() => !estoyAgarrado && !yaDepositado;
     public void MarcarComoDepositado() => yaDepositado = true;
-    
+
     public void Guardar()
     {
         Resaltar(false);
@@ -95,7 +115,6 @@ public class ObjetoAgarrable : MonoBehaviour
 
     public void Depositar()
     {
-         gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 }
-
