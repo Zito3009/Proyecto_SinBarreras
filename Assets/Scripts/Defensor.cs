@@ -18,7 +18,7 @@ public class Defensor : MonoBehaviour
 
     [Header("Cuándo se mueve (Anticipación)")]
     [Tooltip("Distancia en Z a la que el defensor inicia el movimiento al ver al jugador.")]
-    public float distanciaActivacion = 14f; 
+    public float distanciaActivacion = 10f; 
 
     [Header("Movimiento")]
     public Paso paso;
