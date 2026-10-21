@@ -8,33 +8,23 @@ public class SistemaTiro : MonoBehaviour
     [System.Serializable]
     public class Barra
     {
-        public GameObject raiz;          // Fondo de la barra
-        public RectTransform zonaVerde;  // Zona de acierto
-        public RectTransform indicador;  // Línea móvil
-        public bool vertical;            // true = Fuerza, false = Precisión
+        public GameObject raiz;          // Contenedor / Fondo de la barra
+        public RectTransform zonaVerde;  // Zona verde diseñada en Canvas
+        public RectTransform indicador;  // Línea blanca móvil
+        public bool vertical;            // TRUE = Fuerza (Vertical), FALSE = Precisión (Horizontal)
     }
 
     [Header("Referencias")]
     public GameManager2 gestor;
-    public Transform jugador;            // Objeto del jugador (FPSController)
-    public Transform aro;                // Punto hacia donde se tira
-    public Transform pelota;             // Objeto de la pelota
+    public Transform jugador;            // FPSController
+    public Transform aro;                // Aro de básquet
+    public Transform pelota;             // Pelota
     public TextMeshProUGUI textoIndicacion;
 
     [Header("Barras UI")]
     public Barra barraFuerza;
     public Barra barraPrecision;
-    public float grosorIndicador = 8f;
-    [Range(0f, 1f)] public float centroZonaFuerza = 0.7f;
-    [Range(0f, 1f)] public float centroZonaPrecision = 0.5f;
-
-    [Header("Dificultad - Tiro Doble")]
-    public float anchoZonaDoble = 0.3f;
-    public float velocidadDoble = 1.2f;
-
-    [Header("Dificultad - Tiro Triple")]
-    public float anchoZonaTriple = 0.18f;
-    public float velocidadTriple = 1.8f;
+    public float velocidadBarra = 1.2f;
 
     [Header("Pelota y Física")]
     public float alturaOjos = 1.7f;
@@ -59,44 +49,44 @@ public class SistemaTiro : MonoBehaviour
 
     public void Empezar()
     {
-        Debug.Log("¡Llegó a la zona de tiro y arrancó Empezar()!");
         StartCoroutine(Tirar());
     }
 
     IEnumerator Tirar()
     {
-        bool triple = gestor.esTriple;
-        float ancho = triple ? anchoZonaTriple : anchoZonaDoble;
-        float velocidad = triple ? velocidadTriple : velocidadDoble;
-
-        // 1) Orientar la cámara principal hacia el aro sin apagar nada
+        // 1) Orientar la cámara hacia el aro
         Transform camaraTransform = Camera.main.transform;
         camaraTransform.position = new Vector3(jugador.position.x, alturaOjos, jugador.position.z);
         camaraTransform.LookAt(aro.position);
 
-        // Limpiar buffer de entrada
+        // Activar AMBAS barras en pantalla al mismo tiempo
+        if (barraFuerza.raiz != null) barraFuerza.raiz.SetActive(true);
+        if (barraPrecision.raiz != null) barraPrecision.raiz.SetActive(true);
+
+        // Indicador vertical arranca abajo (0.0) e indicador horizontal centrado (0.5)
+        MoverIndicador(barraFuerza, 0f);
+        MoverIndicador(barraPrecision, 0.5f);
+
         yield return new WaitForSeconds(0.2f);
 
-        // 2) Barra 1: Fuerza
+        // 2) Mover Barra Vertical (Fuerza) de Arriba a Abajo
         Mensaje("FUERZA: Apretá ESPACIO");
-        yield return StartCoroutine(UsarBarra(barraFuerza, centroZonaFuerza, ancho, velocidad));
+        yield return StartCoroutine(UsarBarra(barraFuerza, velocidadBarra));
         float fuerza = valorFrenado;
 
         yield return new WaitForSeconds(0.2f);
 
-        // 3) Barra 2: Precisión
+        // 3) Mover Barra Horizontal (Precisión) de Izquierda a Derecha
+        // (La vertical queda congelada en el punto 'fuerza' que eligió el jugador)
         Mensaje("PRECISIÓN: Apretá ESPACIO");
-        yield return StartCoroutine(UsarBarra(barraPrecision, centroZonaPrecision, ancho, velocidad));
+        yield return StartCoroutine(UsarBarra(barraPrecision, velocidadBarra));
         float precision = valorFrenado;
 
         Mensaje("");
 
-        // 4) Comprobar acierto
-        float inicioFuerza = InicioZona(centroZonaFuerza, ancho);
-        float inicioPrecision = InicioZona(centroZonaPrecision, ancho);
-
-        bool fuerzaOk = fuerza >= inicioFuerza && fuerza <= (inicioFuerza + ancho);
-        bool precisionOk = precision >= inicioPrecision && precision <= (inicioPrecision + ancho);
+        // 4) Comprobar si los indicadores quedaron dentro de sus zonas verdes
+        bool fuerzaOk = ComprobarAcierto(barraFuerza, fuerza);
+        bool precisionOk = ComprobarAcierto(barraPrecision, precision);
         bool convertido = fuerzaOk && precisionOk;
 
         // 5) Definir trayectoria de la pelota
@@ -108,17 +98,15 @@ public class SistemaTiro : MonoBehaviour
 
         if (!fuerzaOk)
         {
-            float signo = fuerza < inicioFuerza ? -1f : 1f; // Corto o largo
-            destino += haciaAro * signo * distanciaFallo;
+            destino += haciaAro * (fuerza < 0.5f ? -1f : 1f) * distanciaFallo;
         }
 
         if (!precisionOk)
         {
-            float signo = precision < inicioPrecision ? -1f : 1f; // Izquierda o derecha
-            destino += camaraTransform.right * signo * distanciaFallo;
+            destino += camaraTransform.right * (precision < 0.5f ? -1f : 1f) * distanciaFallo;
         }
 
-        // 6) Animación de tiro en parábola
+        // 6) Animación del tiro
         Vector3 inicioPelota = camaraTransform.position + camaraTransform.forward * 0.5f + Vector3.down * 0.3f;
         pelota.position = inicioPelota;
         pelota.gameObject.SetActive(true);
@@ -145,23 +133,18 @@ public class SistemaTiro : MonoBehaviour
         Mensaje(convertido ? "¡CANASTA!" : "¡FALLASTE!");
         yield return new WaitForSeconds(1.2f);
 
-        // 7) Finalizar y restaurar interfaz
+        // 7) Finalizar
         OcultarTodo();
         gestor.TerminarIntento(convertido);
     }
 
-    IEnumerator UsarBarra(Barra barra, float centro, float ancho, float velocidad)
+    IEnumerator UsarBarra(Barra barra, float velocidad)
     {
-        ConfigurarZona(barra, InicioZona(centro, ancho), ancho);
-        barra.raiz.SetActive(true);
-
         float reloj = 0f;
         float t = 0f;
 
-        // Espera a soltar la tecla si venía presionada
         while (Input.GetKey(KeyCode.Space)) yield return null;
 
-        // Bucle de movimiento del indicador
         while (!Input.GetKeyDown(KeyCode.Space))
         {
             reloj += Time.deltaTime;
@@ -171,50 +154,45 @@ public class SistemaTiro : MonoBehaviour
         }
 
         valorFrenado = t;
-        yield return new WaitForSeconds(0.4f);
-        barra.raiz.SetActive(false);
-    }
-
-    float InicioZona(float centro, float ancho)
-    {
-        return Mathf.Clamp(centro - (ancho / 2f), 0f, 1f - ancho);
-    }
-
-    void ConfigurarZona(Barra barra, float inicio, float ancho)
-    {
-        RectTransform z = barra.zonaVerde;
-        if (barra.vertical)
-        {
-            z.anchorMin = new Vector2(0f, inicio);
-            z.anchorMax = new Vector2(1f, inicio + ancho);
-        }
-        else
-        {
-            z.anchorMin = new Vector2(inicio, 0f);
-            z.anchorMax = new Vector2(inicio + ancho, 1f);
-        }
-        z.offsetMin = Vector2.zero;
-        z.offsetMax = Vector2.zero;
+        yield return new WaitForSeconds(0.2f);
     }
 
     void MoverIndicador(Barra barra, float t)
     {
-        RectTransform i = barra.indicador;
-        float m = grosorIndicador / 2f;
+        if (barra.indicador == null || barra.raiz == null) return;
+
+        RectTransform contenedor = barra.raiz.GetComponent<RectTransform>();
+        if (contenedor == null) return;
+
         if (barra.vertical)
         {
-            i.anchorMin = new Vector2(0f, t);
-            i.anchorMax = new Vector2(1f, t);
-            i.offsetMin = new Vector2(0f, -m);
-            i.offsetMax = new Vector2(0f, m);
+            // Movimiento VERTICAL (eje Y: de abajo a arriba)
+            float alto = contenedor.rect.height;
+            float pos = Mathf.Lerp(-alto / 2f, alto / 2f, t);
+            barra.indicador.anchoredPosition = new Vector2(0f, pos);
         }
         else
         {
-            i.anchorMin = new Vector2(t, 0f);
-            i.anchorMax = new Vector2(t, 1f);
-            i.offsetMin = new Vector2(-m, 0f);
-            i.offsetMax = new Vector2(m, 0f);
+            // Movimiento HORIZONTAL (eje X: de izquierda a derecha)
+            float ancho = contenedor.rect.width;
+            float pos = Mathf.Lerp(-ancho / 2f, ancho / 2f, t);
+            barra.indicador.anchoredPosition = new Vector2(pos, 0f);
         }
+    }
+
+    bool ComprobarAcierto(Barra barra, float valorT)
+    {
+        if (barra.zonaVerde == null || barra.raiz == null) return true;
+
+        RectTransform contenedor = barra.raiz.GetComponent<RectTransform>();
+        float tamanoContenedor = barra.vertical ? contenedor.rect.height : contenedor.rect.width;
+        float posIndicador = Mathf.Lerp(-tamanoContenedor / 2f, tamanoContenedor / 2f, valorT);
+
+        float inicioZona = barra.vertical ? barra.zonaVerde.anchoredPosition.y - (barra.zonaVerde.rect.height / 2f) 
+                                          : barra.zonaVerde.anchoredPosition.x - (barra.zonaVerde.rect.width / 2f);
+        float finZona = inicioZona + (barra.vertical ? barra.zonaVerde.rect.height : barra.zonaVerde.rect.width);
+
+        return posIndicador >= inicioZona && posIndicador <= finZona;
     }
 
     void Mensaje(string texto)

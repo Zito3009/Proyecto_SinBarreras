@@ -4322,7 +4322,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &972724060
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7197,19 +7197,13 @@ MonoBehaviour:
     raiz: {fileID: 1806572972}
     zonaVerde: {fileID: 790679566}
     indicador: {fileID: 972724060}
-    vertical: 0
+    vertical: 1
   barraPrecision:
     raiz: {fileID: 1385778967}
     zonaVerde: {fileID: 1566415207}
     indicador: {fileID: 1231276526}
     vertical: 0
-  grosorIndicador: 8
-  centroZonaFuerza: 0.7
-  centroZonaPrecision: 0.5
-  anchoZonaDoble: 0.3
-  velocidadDoble: 1.2
-  anchoZonaTriple: 0.18
-  velocidadTriple: 1.8
+  velocidadBarra: 1.2
   alturaOjos: 1.7
   duracionVuelo: 1.2
   alturaParabola: 2.5
