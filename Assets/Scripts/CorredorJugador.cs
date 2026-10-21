@@ -74,25 +74,33 @@ public class CorredorJugador : MonoBehaviour
     {
         if (!corriendo) return;
 
-        if (other.CompareTag("Defensor"))
-        {
-           corriendo = false; 
+    // Colisión con Defensor
+    if (other.CompareTag("Defensor"))
+    {
+        corriendo = false; 
 
-            if (gestor != null)
-            {
-                gestor.TerminarIntento(false); 
-            }
-            return;
-        }
-
-        ZonaDescanso zona = other.GetComponent<ZonaDescanso>();
-        if (zona != null)
+        if (gestor != null)
         {
-            if (gestor != null && zona.numeroLinea >= gestor.lineasActivas)
+            gestor.TerminarIntento(false); 
+        }
+        return;
+    }
+
+    // Colisión con la Zona de Final / Tiro
+    ZonaDescanso zona = other.GetComponent<ZonaDescanso>();
+    if (zona != null)
+    {
+        if (gestor != null && zona.numeroLinea >= gestor.lineasActivas)
+        {
+            corriendo = false;
+            
+            // Buscamos el sistema de tiro y arrancamos las barras
+            SistemaTiro sistemaTiro = FindObjectOfType<SistemaTiro>();
+            if (sistemaTiro != null)
             {
-                corriendo = false;
-                gestor.LlegoAlFinal();
+                sistemaTiro.Empezar();
             }
         }
+    }
     }
 }

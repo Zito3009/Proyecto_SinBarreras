@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro; 
+using TMPro;
 
 public class SistemaTiro : MonoBehaviour
 {
@@ -16,11 +16,9 @@ public class SistemaTiro : MonoBehaviour
 
     [Header("Referencias")]
     public GameManager2 gestor;
-    public Camera camaraCarrera;
-    public Camera camaraTiro;
-    public Transform jugador;
-    public Transform aro;
-    public Transform pelota;
+    public Transform jugador;            // Objeto del jugador (FPSController)
+    public Transform aro;                // Punto hacia donde se tira
+    public Transform pelota;             // Objeto de la pelota
     public TextMeshProUGUI textoIndicacion;
 
     [Header("Barras UI")]
@@ -56,12 +54,12 @@ public class SistemaTiro : MonoBehaviour
         if (barraFuerza.raiz != null) barraFuerza.raiz.SetActive(false);
         if (barraPrecision.raiz != null) barraPrecision.raiz.SetActive(false);
         if (pelota != null) pelota.gameObject.SetActive(false);
-        if (camaraTiro != null) camaraTiro.enabled = false;
         Mensaje("");
     }
 
     public void Empezar()
     {
+        Debug.Log("¡Llegó a la zona de tiro y arrancó Empezar()!");
         StartCoroutine(Tirar());
     }
 
@@ -71,13 +69,12 @@ public class SistemaTiro : MonoBehaviour
         float ancho = triple ? anchoZonaTriple : anchoZonaDoble;
         float velocidad = triple ? velocidadTriple : velocidadDoble;
 
-        // 1) Posicionar y activar cámara de tiro
-        camaraTiro.transform.position = new Vector3(jugador.position.x, alturaOjos, jugador.position.z);
-        camaraTiro.transform.LookAt(aro.position);
-        camaraTiro.enabled = true;
-        if (camaraCarrera != null) camaraCarrera.enabled = false;
+        // 1) Orientar la cámara principal hacia el aro sin apagar nada
+        Transform camaraTransform = Camera.main.transform;
+        camaraTransform.position = new Vector3(jugador.position.x, alturaOjos, jugador.position.z);
+        camaraTransform.LookAt(aro.position);
 
-        // Limpiar buffer de teclas antes de arrancar las barras
+        // Limpiar buffer de entrada
         yield return new WaitForSeconds(0.2f);
 
         // 2) Barra 1: Fuerza
@@ -103,7 +100,7 @@ public class SistemaTiro : MonoBehaviour
         bool convertido = fuerzaOk && precisionOk;
 
         // 5) Definir trayectoria de la pelota
-        Vector3 haciaAro = (aro.position - camaraTiro.transform.position);
+        Vector3 haciaAro = (aro.position - camaraTransform.position);
         haciaAro.y = 0f;
         haciaAro.Normalize();
 
@@ -118,11 +115,11 @@ public class SistemaTiro : MonoBehaviour
         if (!precisionOk)
         {
             float signo = precision < inicioPrecision ? -1f : 1f; // Izquierda o derecha
-            destino += camaraTiro.transform.right * signo * distanciaFallo;
+            destino += camaraTransform.right * signo * distanciaFallo;
         }
 
         // 6) Animación de tiro en parábola
-        Vector3 inicioPelota = camaraTiro.transform.position + camaraTiro.transform.forward * 0.5f + Vector3.down * 0.3f;
+        Vector3 inicioPelota = camaraTransform.position + camaraTransform.forward * 0.5f + Vector3.down * 0.3f;
         pelota.position = inicioPelota;
         pelota.gameObject.SetActive(true);
 
@@ -135,7 +132,7 @@ public class SistemaTiro : MonoBehaviour
             yield return null;
         }
 
-        // Caída tras el golpe/canasta
+        // Caída tras el tiro
         Vector3 posFinal = pelota.position;
         tiempo = 0f;
         while (tiempo < 0.4f)
@@ -148,8 +145,7 @@ public class SistemaTiro : MonoBehaviour
         Mensaje(convertido ? "¡CANASTA!" : "¡FALLASTE!");
         yield return new WaitForSeconds(1.2f);
 
-        // 7) Restaurar cámara y finalizar
-        if (camaraCarrera != null) camaraCarrera.enabled = true;
+        // 7) Finalizar y restaurar interfaz
         OcultarTodo();
         gestor.TerminarIntento(convertido);
     }
