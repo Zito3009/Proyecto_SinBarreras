@@ -4,25 +4,36 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Paneles de la Fase 1")]
     public GameObject panelPerdiste;
     public GameObject panelGanaste;
     public GameObject panelGanasteMejor;
     public GameObject panelMejora;
-    public GameObject personaje1, personaje2;
+
+    [Header("Personajes y Posiciones")]
+    public GameObject personaje1;
+    public GameObject personaje2;
     public Transform posInicio;
+
+    [Header("Paneles de la Fase 2")]
     public GameObject panelGanastePersonaje2;
     public GameObject panelGanasteMejorPersonaje2;
+    public GameObject panelFlojoPersonaje2;
+    public GameObject panelInstruccionesFase2;
+
+    [Header("Referencias de la Fase 2")]
     public CamaraTerceraPersona camaraJugador;
     public ControladorAgarrar controladorAgarrarPersonaje2;
     public ContadorObjetosFase2 contadorFase2;
     public GameObject panelContador;
     public GameObject flecha;
+    public GameObject flechaFase2;
     public Animator puerta;
     public GameObject cajaDeposito;
-    public GameObject panelFlojoPersonaje2;
-    public GameObject panelInstruccionesFase2;
-    public GameObject flechaFase2;
     public int minimoAprobadoFase2 = 10;
+
+    [Header("Transición")]
+    public Transicion_niveles transicionNiveles;
 
     private float tiempo;
     private bool termino;
@@ -38,7 +49,6 @@ public class GameManager : MonoBehaviour
             tiempo += Time.deltaTime;
     }
 
-    // Llama a esto si tu temporizador de pantalla llega a cero
     public void TiempoAgotado()
     {
         termino = true;
@@ -60,10 +70,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Se ejecuta al tocar la puerta
+    // Se ejecuta al tocar la puerta en la Fase 1
     public void TocarPuerta()
     {
+        if (termino) return;
         termino = true;
+
+        StartCoroutine(RutinaVictoriaFase1());
+    }
+
+    IEnumerator RutinaVictoriaFase1()
+    {
+        // 1. Inicia el fundido a negro progresivo
+        if (transicionNiveles != null)
+        {
+            transicionNiveles.AparecerDeAPoco();
+            // Espera a que termine la animación de fundido
+            yield return new WaitForSecondsRealtime(transicionNiveles.duracionFundido);
+        }
+
+        // 2. Muestra el cartel de victoria con la pantalla ya en negro
         PausarYMostrarCursor();
 
         if (tiempo < 40f)
@@ -71,20 +97,37 @@ public class GameManager : MonoBehaviour
         else
             panelGanaste.SetActive(true);
 
-        StartCoroutine(EsperarMejora());
-    }
-
-    IEnumerator EsperarMejora()
-    {
+        // 3. Espera 5 segundos antes de desplegar el menú de mejora
         yield return new WaitForSecondsRealtime(5f);
+
         panelGanaste.SetActive(false);
         panelGanasteMejor.SetActive(false);
         panelMejora.SetActive(true);
     }
 
-    // Asignar al botón "Comenzar" del panelMejora
+    public void MostrarInstruccionesFase2()
+    {
+        panelMejora.SetActive(false);
+        if (panelInstruccionesFase2 != null)
+            panelInstruccionesFase2.SetActive(true);
+    }
+
+    public void ConfirmarInstruccionesYEmpezarFase2()
+    {
+        if (panelInstruccionesFase2 != null)
+            panelInstruccionesFase2.SetActive(false);
+
+        EmpezarSegundaPerspectiva();
+    }
+
     public void EmpezarSegundaPerspectiva()
     {
+        // Aclara la pantalla para comenzar la Fase 2
+        if (transicionNiveles != null)
+        {
+            transicionNiveles.DesaparecerDeAPoco();
+        }
+
         panelMejora.SetActive(false);
 
         if (flecha != null)
@@ -95,34 +138,30 @@ public class GameManager : MonoBehaviour
            
         if (puerta != null)
         {
-            puerta.Play("Abrir", 0, 0f);   // fuerza el frame 0 (puerta cerrada)
-            puerta.Update(0f);              // aplica esa pose ya mismo
-            puerta.enabled = false;         // y la deja congelada ahí, cerrada
+            puerta.Play("Abrir", 0, 0f);   // Fuerza el frame 0 (puerta cerrada)
+            puerta.Update(0f);              // Aplica esa pose de inmediato
+            puerta.enabled = false;         // Congela la puerta cerrada
         }
+
         if (panelContador != null)
             panelContador.SetActive(true);
 
-        // Cambiar personajes y posicionar al 2 en el inicio
-        personaje1.SetActive(false);
-        personaje2.transform.position = posInicio.position;
-        personaje2.SetActive(true);
-
-        if(panelGanaste != null)
+        // Cambiar personajes y posicionar al segundo en el inicio
+        if (personaje1 != null) personaje1.SetActive(false);
+        if (personaje2 != null)
         {
-            panelGanaste.SetActive(false);
-        }
-        if (panelGanasteMejor != null)
-        {
-            panelGanasteMejor.SetActive(false);
-        }
-        if (panelPerdiste != null)
-        {
-            panelPerdiste.SetActive(false);
+            personaje2.transform.position = posInicio.position;
+            personaje2.SetActive(true);
         }
 
+        if (panelGanaste != null) panelGanaste.SetActive(false);
+        if (panelGanasteMejor != null) panelGanasteMejor.SetActive(false);
+        if (panelPerdiste != null) panelPerdiste.SetActive(false);
 
-        controladorAgarrarPersonaje2.enabled = true;
+        if (controladorAgarrarPersonaje2 != null)
+            controladorAgarrarPersonaje2.enabled = true;
 
+        // Guardar posiciones de los objetos agarrables de la escena
         objetosFase2.Clear();
         posicionesOriginales.Clear();
         rotacionesOriginales.Clear();
@@ -133,17 +172,18 @@ public class GameManager : MonoBehaviour
             rotacionesOriginales[obj] = obj.transform.rotation;
         }
 
-        contadorFase2.IniciarFase();
+        if (contadorFase2 != null)
+            contadorFase2.IniciarFase();
 
         // Reiniciar variables
         tiempo = 0;
         termino = false;
         esFase2 = true;
 
-        // Ocultar cursor y reanudar juego
+        // Ocultar cursor y reanudar el juego
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        Time.timeScale = 1;
+        Time.timeScale = 1f;
 
         if (cajaDeposito != null)
             cajaDeposito.SetActive(true);
@@ -151,28 +191,38 @@ public class GameManager : MonoBehaviour
 
     public void FinalizarFase2(int objetosMovidos, int maximoObjetos)
     {
-        
         PausarYMostrarCursor();
+
+        if (objetosMovidos >= minimoAprobadoFase2 && transicionNiveles != null)
+        {
+            transicionNiveles.AparecerDeAPoco();
+        }
 
         if (objetosMovidos < minimoAprobadoFase2)
         {
-            panelFlojoPersonaje2.SetActive(true);
+            if (panelFlojoPersonaje2 != null) panelFlojoPersonaje2.SetActive(true);
         }
         else if (objetosMovidos >= maximoObjetos)
         {
-            panelGanasteMejorPersonaje2.SetActive(true);
+            if (panelGanasteMejorPersonaje2 != null) panelGanasteMejorPersonaje2.SetActive(true);
         }
         else 
         {
-            panelGanastePersonaje2.SetActive(true);
+            if (panelGanastePersonaje2 != null) panelGanastePersonaje2.SetActive(true);
         }
     }
 
     public void ReintentarFase2()
     {
-        panelFlojoPersonaje2.SetActive(false);
-        panelGanastePersonaje2.SetActive(false);
-        panelGanasteMejorPersonaje2.SetActive(false);
+        // Remueve la pantalla negra al reiniciar
+        if (transicionNiveles != null)
+        {
+            transicionNiveles.DesaparecerDeAPoco();
+        }
+
+        if (panelFlojoPersonaje2 != null) panelFlojoPersonaje2.SetActive(false);
+        if (panelGanastePersonaje2 != null) panelGanastePersonaje2.SetActive(false);
+        if (panelGanasteMejorPersonaje2 != null) panelGanasteMejorPersonaje2.SetActive(false);
 
         foreach (ObjetoAgarrable obj in objetosFase2)
         {
@@ -181,10 +231,14 @@ public class GameManager : MonoBehaviour
             obj.transform.rotation = rotacionesOriginales[obj];
         }
 
-        controladorAgarrarPersonaje2.ReiniciarBolsillo();
+        if (controladorAgarrarPersonaje2 != null)
+            controladorAgarrarPersonaje2.ReiniciarBolsillo();
 
-        personaje2.transform.position = posInicio.position;
-        contadorFase2.IniciarFase();
+        if (personaje2 != null)
+            personaje2.transform.position = posInicio.position;
+
+        if (contadorFase2 != null)
+            contadorFase2.IniciarFase();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -194,23 +248,13 @@ public class GameManager : MonoBehaviour
     public void SiguienteNivel()
     {
         Debug.Log("Falta definir la escena del siguiente nivel.");
-        // TODO: SceneManager.LoadScene("NombreDelSiguienteNivel");
+        // SceneManager.LoadScene("NombreDelSiguienteNivel");
     }
 
     void PausarYMostrarCursor()
     {
-        Time.timeScale = 0;
+        Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-    }
-    public void MostrarInstruccionesFase2()
-    {
-        panelMejora.SetActive(false);
-        panelInstruccionesFase2.SetActive(true);
-    }
-    public void ConfirmarInstruccionesYEmpezarFase2()
-    {
-        panelInstruccionesFase2.SetActive(false);
-        EmpezarSegundaPerspectiva();
     }
 }

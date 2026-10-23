@@ -40,7 +40,7 @@ public class ContadorObjetosFase2 : MonoBehaviour
         {
             faseActiva = false;
             tiempoRestante = 0f;
-            gameManager.FinalizarFase2(objetosMovidos, minimoParaMejor);
+            gameManager.FinalizarFase2(objetosMovidos, maximoObjetos);
         }
     }
 
@@ -55,7 +55,7 @@ public class ContadorObjetosFase2 : MonoBehaviour
         if (objetosMovidos >= maximoObjetos)
         {
             faseActiva = false;
-            gameManager.FinalizarFase2(objetosMovidos, minimoParaMejor);
+            gameManager.FinalizarFase2(objetosMovidos, maximoObjetos);
         }
     }
 }
