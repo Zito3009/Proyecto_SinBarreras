@@ -11,6 +11,7 @@ public class GameManager2 : MonoBehaviour
     public Estado estado;
     public bool esTriple;
     public int lineasActivas;
+    public Transicion_niveles transicionNiveles;
 
     [Header("Reglas")]
     public int puntosObjetivo = 8;
@@ -198,6 +199,11 @@ public class GameManager2 : MonoBehaviour
 
     void MostrarVictoria(bool conBotonSeguir)
     {
+
+        if (transicionNiveles != null)
+        {   
+            transicionNiveles.AparecerDeAPoco();
+        }
         GameObject panel = ganoMejor ? panelGanasteMejor : panelGanaste;
         GameObject botonSeguir = ganoMejor ? botonSeguirGanasteMejor : botonSeguirGanaste;
 
@@ -212,6 +218,10 @@ public class GameManager2 : MonoBehaviour
 
     void MostrarVictoriaCinco()
     {
+        if (transicionNiveles != null)
+        {
+            transicionNiveles.AparecerDeAPoco();
+        }
         estado = Estado.Fin;
         panelGanasteCinco.SetActive(true);
         AjustarEstadoCursor(false);
