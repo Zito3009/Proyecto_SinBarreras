@@ -11,6 +11,7 @@ public class Defensor : MonoBehaviour
         public float espera = 0.1f;   // tiempo mínimo de espera
         public float velocidad = 8f;  // qué tan rápido se desplaza lateralmente
     }
+    private static int ultimocarril = -1;
 
     [Header("Posición")]
     public int carrilInicial = 1;
@@ -81,5 +82,20 @@ public class Defensor : MonoBehaviour
         Vector3 p = transform.localPosition;
         p.x = XDeCarril(carril);
         transform.localPosition = p;
+    }
+
+    int SeleccionarCarrilValido()
+    {
+        int carrilCandidato;
+        do
+        {
+            carrilCandidato = Random.Range(0, 3);
+        } 
+        while (carrilCandidato == ultimocarril);
+
+        
+        ultimocarril = carrilCandidato;
+
+        return carrilCandidato;
     }
 }
