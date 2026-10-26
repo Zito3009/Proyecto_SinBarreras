@@ -158,27 +158,28 @@ public class SistemaTiro : MonoBehaviour
     }
 
     void MoverIndicador(Barra barra, float t)
+{
+    if (barra.indicador == null || barra.raiz == null) return;
+
+    RectTransform contenedor = barra.raiz.GetComponent<RectTransform>();
+    if (contenedor == null) return;
+
+    // Comparamos directamente si es la barra de fuerza (vertical) o la de precisión (horizontal)
+    if (barra == barraFuerza)
     {
-        if (barra.indicador == null || barra.raiz == null) return;
-
-        RectTransform contenedor = barra.raiz.GetComponent<RectTransform>();
-        if (contenedor == null) return;
-
-        if (barra.vertical)
-        {
-            // Movimiento VERTICAL (eje Y: de abajo a arriba)
-            float alto = contenedor.rect.height;
-            float pos = Mathf.Lerp(-alto / 2f, alto / 2f, t);
-            barra.indicador.anchoredPosition = new Vector2(0f, pos);
-        }
-        else
-        {
-            // Movimiento HORIZONTAL (eje X: de izquierda a derecha)
-            float ancho = contenedor.rect.width;
-            float pos = Mathf.Lerp(-ancho / 2f, ancho / 2f, t);
-            barra.indicador.anchoredPosition = new Vector2(pos, 0f);
-        }
+        // VERTICAL: Movimiento en el eje Y (de abajo hacia arriba)
+        float alto = contenedor.rect.height;
+        float pos = Mathf.Lerp(-alto / 2f, alto / 2f, t);
+        barra.indicador.anchoredPosition = new Vector2(0f, pos);
     }
+    else if (barra == barraPrecision)
+    {
+        // HORIZONTAL: Movimiento en el eje X (de izquierda a derecha)
+        float ancho = contenedor.rect.width;
+        float pos = Mathf.Lerp(-ancho / 2f, ancho / 2f, t);
+        barra.indicador.anchoredPosition = new Vector2(pos, 0f);
+    }
+}
 
     bool ComprobarAcierto(Barra barra, float valorT)
     {
