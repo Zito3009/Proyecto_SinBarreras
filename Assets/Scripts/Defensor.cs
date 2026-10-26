@@ -12,6 +12,9 @@ public class Defensor : MonoBehaviour
         public float velocidad = 8f;  // qué tan rápido se desplaza lateralmente
     }
 
+    // Memoria global compartida entre TODAS las líneas del juego
+    private static int ultimoCarrilGlobal = -1;
+
     [Header("Posición")]
     public int carrilInicial = 1;
     public float separacionCarriles = 3f;
@@ -33,7 +36,6 @@ public class Defensor : MonoBehaviour
             if (corredor != null) jugador = corredor.transform;
         }
 
-        // Coordinamos los carriles de toda la línea a la que pertenece esta esfera
         CoordinarLinea();
 
         StartCoroutine(Rutina());
@@ -41,37 +43,44 @@ public class Defensor : MonoBehaviour
 
     void CoordinarLinea()
     {
-        // Si no tiene objeto padre (Linea1, Linea2, etc.), se asigna de forma aleatoria individual
         if (transform.parent == null)
         {
             AsignarAleatorioIndividual();
             return;
         }
 
-        // Obtenemos todos los defensores que son hijos de la misma línea
         Defensor[] defensoresEnLinea = transform.parent.GetComponentsInChildren<Defensor>();
 
-        // Para evitar que cada hijo haga el cálculo por separado, 
-        // solo el PRIMER hijo de la lista repartirá los carriles a todos los de su línea
         if (defensoresEnLinea.Length > 0 && defensoresEnLinea[0] == this)
         {
-            // Listas de carriles disponibles en la cancha (0 = Izquierda, 1 = Centro, 2 = Derecha)
             List<int> carrilesInicioDisponibles = new List<int> { 0, 1, 2 };
             List<int> carrilesDestinoDisponibles = new List<int> { 0, 1, 2 };
 
-            foreach (Defensor def in defensoresEnLinea)
+            for (int i = 0; i < defensoresEnLinea.Length; i++)
             {
-                // 1. Asignar Carril Inicial (sin repetir entre hermanos)
-                int indexInicio = Random.Range(0, carrilesInicioDisponibles.Count);
-                def.carrilInicial = carrilesInicioDisponibles[indexInicio];
-                carrilesInicioDisponibles.RemoveAt(indexInicio); // Se remueve para que el otro defensor no lo use
+                Defensor def = defensoresEnLinea[i];
+
+                // --- 1. CARRIL INICIAL ---
+                // Si es la PRIMERA esfera de esta línea, evitamos el carril de la línea anterior
+                List<int> opcionesInicioValidas = new List<int>();
+                foreach (int c in carrilesInicioDisponibles)
+                {
+                    if (i == 0 && c == ultimoCarrilGlobal && carrilesInicioDisponibles.Count > 1)
+                    {
+                        continue; // Descarta el carril de la línea anterior solo para el primer defensor
+                    }
+                    opcionesInicioValidas.Add(c);
+                }
+
+                int carrilElegidoInicio = opcionesInicioValidas[Random.Range(0, opcionesInicioValidas.Count)];
+                def.carrilInicial = carrilElegidoInicio;
+                carrilesInicioDisponibles.Remove(carrilElegidoInicio);
                 def.PonerEnCarril(def.carrilInicial);
 
-                // 2. Asignar Carril Destino (sin repetir y diferente a su propio carril inicial)
+                // --- 2. CARRIL DESTINO ---
                 def.paso = new Paso();
                 def.paso.velocidad = 8f;
 
-                // Buscamos destinos disponibles que no sean el mismo carril inicial de este defensor
                 List<int> opcionesDestinoValidas = new List<int>();
                 foreach (int c in carrilesDestinoDisponibles)
                 {
@@ -81,15 +90,17 @@ public class Defensor : MonoBehaviour
                     }
                 }
 
-                // Si por descarte no hay opción diferente, usamos los que queden
                 if (opcionesDestinoValidas.Count == 0)
                 {
                     opcionesDestinoValidas = new List<int>(carrilesDestinoDisponibles);
                 }
 
-                int carrilElegido = opcionesDestinoValidas[Random.Range(0, opcionesDestinoValidas.Count)];
-                def.paso.carril = carrilElegido;
-                carrilesDestinoDisponibles.Remove(carrilElegido); // Se remueve para que el otro defensor no vaya ahí
+                int carrilElegidoDestino = opcionesDestinoValidas[Random.Range(0, opcionesDestinoValidas.Count)];
+                def.paso.carril = carrilElegidoDestino;
+                carrilesDestinoDisponibles.Remove(carrilElegidoDestino);
+
+                // Guardamos la última posición asignada para que la PRÓXIMA línea sepa cuál evitar
+                ultimoCarrilGlobal = def.carrilInicial;
             }
         }
     }
@@ -111,11 +122,9 @@ public class Defensor : MonoBehaviour
 
     IEnumerator Rutina()
     {
-        // Se mantiene intacta la distancia de activación: espera a que el jugador se acerque
         while (jugador != null && jugador.position.z < transform.position.z - distanciaActivacion)
             yield return null;
 
-        // Pequeña pausa opcional y movimiento lateral al carril asignado
         yield return new WaitForSeconds(paso.espera);
         yield return StartCoroutine(IrAX(XDeCarril(paso.carril), paso.velocidad));
     }
