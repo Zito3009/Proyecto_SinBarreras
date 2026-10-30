@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Defensor : MonoBehaviour
 {
-   [System.Serializable]
+    [System.Serializable]
     public class Paso
     {
-        public int carril = 1;        // 0 = izquierda, 1 = centro, 2 = derecha
+        public int carril = 0;        // -3 = izquierda, 0 = centro, 3 = derecha
         public float espera = 0.1f;   // tiempo mínimo de espera
         public float velocidad = 8f;  // qué tan rápido se desplaza lateralmente
     }
 
     [Header("Posición")]
-    public int carrilInicial = 1;
+    public int carrilInicial = 0;
     public float separacionCarriles = 3f;
 
     [Header("Cuándo se mueve (Anticipación)")]
@@ -24,6 +24,7 @@ public class Defensor : MonoBehaviour
     public Paso paso;
 
     private Transform jugador;
+
     void OnEnable()
     {
         if (jugador == null)
@@ -32,15 +33,18 @@ public class Defensor : MonoBehaviour
             if (corredor != null) jugador = corredor.transform;
         }
 
-        // 1. Ubicación inicial aleatoria (0, 1 o 2)
-        carrilInicial = Random.Range(0, 3);
+        // Opciones de carriles fijas en las coordenadas X
+        int[] carriles = { -3, 0, 3 };
+
+        // 1. Ubicación inicial aleatoria (-3, 0 o 3)
+        carrilInicial = carriles[Random.Range(0, carriles.Length)];
         PonerEnCarril(carrilInicial);
 
         // 2. Elige un carril destino aleatorio DIFERENTE al inicial
         paso = new Paso();
         do
         {
-            paso.carril = Random.Range(0, 3);
+            paso.carril = carriles[Random.Range(0, carriles.Length)];
         } 
         while (paso.carril == carrilInicial);
 
@@ -55,7 +59,7 @@ public class Defensor : MonoBehaviour
         while (jugador != null && jugador.position.z < transform.position.z - distanciaActivacion)
             yield return null;
 
-        // Pausa diminuta y movimiento directo sin cambiar de color
+        // Pausa diminuta y movimiento directo
         yield return new WaitForSeconds(paso.espera);
         yield return StartCoroutine(IrAX(XDeCarril(paso.carril), paso.velocidad));
     }
@@ -73,7 +77,8 @@ public class Defensor : MonoBehaviour
 
     float XDeCarril(int carril)
     {
-        return (carril - 1) * separacionCarriles;
+        // Al ser -3, 0 o 3, el parámetro ya es la coordenada en X
+        return carril;
     }
 
     void PonerEnCarril(int carril)

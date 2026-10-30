@@ -52,6 +52,8 @@ public class SistemaTiro : MonoBehaviour
 
     IEnumerator Tirar()
     {
+
+        
         // 1) Orientar la cámara hacia el aro
         Transform camaraTransform = Camera.main.transform;
         camaraTransform.position = new Vector3(jugador.position.x, alturaOjos, jugador.position.z);
