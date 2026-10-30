@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class SistemaTiro : MonoBehaviour
 {
@@ -19,7 +18,6 @@ public class SistemaTiro : MonoBehaviour
     public Transform jugador;            // FPSController
     public Transform aro;                // Aro de básquet
     public Transform pelota;             // Pelota
-    public TextMeshProUGUI textoIndicacion;
 
     [Header("Barras UI")]
     public Barra barraFuerza;
@@ -41,10 +39,10 @@ public class SistemaTiro : MonoBehaviour
 
     public void OcultarTodo()
     {
+        // Al arrancar la partida, ambas barras inician desactivadas
         if (barraFuerza.raiz != null) barraFuerza.raiz.SetActive(false);
         if (barraPrecision.raiz != null) barraPrecision.raiz.SetActive(false);
         if (pelota != null) pelota.gameObject.SetActive(false);
-        Mensaje("");
     }
 
     public void Empezar()
@@ -59,30 +57,25 @@ public class SistemaTiro : MonoBehaviour
         camaraTransform.position = new Vector3(jugador.position.x, alturaOjos, jugador.position.z);
         camaraTransform.LookAt(aro.position);
 
-        // Activar AMBAS barras en pantalla al mismo tiempo
+        // Activar AMBAS barras al mismo tiempo al comenzar el tiro
         if (barraFuerza.raiz != null) barraFuerza.raiz.SetActive(true);
         if (barraPrecision.raiz != null) barraPrecision.raiz.SetActive(true);
 
-        // Indicador vertical arranca abajo (0.0) e indicador horizontal centrado (0.5)
-        MoverIndicador(barraFuerza, 0f);
-        MoverIndicador(barraPrecision, 0.5f);
+        // Inicializar posiciones de los indicadores
+        MoverIndicadorVertical(barraFuerza, 0f);
+        MoverIndicadorHorizontal(barraPrecision, 0.5f);
 
         yield return new WaitForSeconds(0.2f);
 
-        // 2) Mover Barra Vertical (Fuerza) de Arriba a Abajo
-        Mensaje("FUERZA: Apretá ESPACIO");
+        // 2) Mover Barra Vertical (Fuerza)
         yield return StartCoroutine(UsarBarra(barraFuerza, velocidadBarra));
         float fuerza = valorFrenado;
 
         yield return new WaitForSeconds(0.2f);
 
-        // 3) Mover Barra Horizontal (Precisión) de Izquierda a Derecha
-        // (La vertical queda congelada en el punto 'fuerza' que eligió el jugador)
-        Mensaje("PRECISIÓN: Apretá ESPACIO");
+        // 3) Mover Barra Horizontal (Precisión)
         yield return StartCoroutine(UsarBarra(barraPrecision, velocidadBarra));
         float precision = valorFrenado;
-
-        Mensaje("");
 
         // 4) Comprobar si los indicadores quedaron dentro de sus zonas verdes
         bool fuerzaOk = ComprobarAcierto(barraFuerza, fuerza);
@@ -130,7 +123,6 @@ public class SistemaTiro : MonoBehaviour
             yield return null;
         }
 
-        Mensaje(convertido ? "¡CANASTA!" : "¡FALLASTE!");
         yield return new WaitForSeconds(1.2f);
 
         // 7) Finalizar
@@ -149,7 +141,16 @@ public class SistemaTiro : MonoBehaviour
         {
             reloj += Time.deltaTime;
             t = Mathf.PingPong(reloj * velocidad, 1f);
-            MoverIndicador(barra, t);
+
+            if (barra.vertical == true)
+            {
+                MoverIndicadorVertical(barra, t);
+            }
+            else if (barra.vertical == false)
+            {
+                MoverIndicadorHorizontal(barra, t);
+            }
+
             yield return null;
         }
 
@@ -157,33 +158,33 @@ public class SistemaTiro : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
     }
 
-    void MoverIndicador(Barra barra, float t)
-{
-    if (barra.indicador == null || barra.raiz == null) return;
-
-    RectTransform contenedor = barra.raiz.GetComponent<RectTransform>();
-    if (contenedor == null) return;
-
-    // Comparamos directamente si es la barra de fuerza (vertical) o la de precisión (horizontal)
-    if (barra == barraFuerza)
+    void MoverIndicadorVertical(Barra barra, float t)
     {
-        // VERTICAL: Movimiento en el eje Y (de abajo hacia arriba)
+        if (barra == null || barra.indicador == null || barra.raiz == null) return;
+
+        RectTransform contenedor = barra.raiz.GetComponent<RectTransform>();
+        if (contenedor == null) return;
+
         float alto = contenedor.rect.height;
         float pos = Mathf.Lerp(-alto / 2f, alto / 2f, t);
         barra.indicador.anchoredPosition = new Vector2(0f, pos);
     }
-    else if (barra == barraPrecision)
+
+    void MoverIndicadorHorizontal(Barra barra, float t)
     {
-        // HORIZONTAL: Movimiento en el eje X (de izquierda a derecha)
-        float ancho = contenedor.rect.width;
-        float pos = Mathf.Lerp(-ancho / 2f, ancho / 2f, t);
-        barra.indicador.anchoredPosition = new Vector2(pos, 0f);
+        if (barra == null || barra.indicador == null || barra.raiz == null) return;
+
+        RectTransform contenedor = barra.raiz.GetComponent<RectTransform>();
+        if (contenedor == null) return;
+
+        float alto = contenedor.rect.width;
+        float pos = Mathf.Lerp(-alto / 2f, alto / 2f, t);
+        barra.indicador.anchoredPosition = new Vector2(0f, pos);
     }
-}
 
     bool ComprobarAcierto(Barra barra, float valorT)
     {
-        if (barra.zonaVerde == null || barra.raiz == null) return true;
+        if (barra == null || barra.zonaVerde == null || barra.raiz == null) return true;
 
         RectTransform contenedor = barra.raiz.GetComponent<RectTransform>();
         float tamanoContenedor = barra.vertical ? contenedor.rect.height : contenedor.rect.width;
@@ -194,11 +195,5 @@ public class SistemaTiro : MonoBehaviour
         float finZona = inicioZona + (barra.vertical ? barra.zonaVerde.rect.height : barra.zonaVerde.rect.width);
 
         return posIndicador >= inicioZona && posIndicador <= finZona;
-    }
-
-    void Mensaje(string texto)
-    {
-        if (textoIndicacion != null)
-            textoIndicacion.text = texto;
     }
 }
