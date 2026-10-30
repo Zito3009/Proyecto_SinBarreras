@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 41589a28e40d8d3499f5cbc361df5dd3
+  - enabled: 1
+    path: Assets/Scenes/nivelbasquet.unity
+    guid: 6dfe6efcef02938479523d0cf5dbfd97
   m_configObjects: {}
