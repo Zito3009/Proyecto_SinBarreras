@@ -844,7 +844,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 992704426}
   pivotOffset: {x: 0, y: 2.5, z: 0}
-  camOffset: {x: 0, y: 0, z: -5}
+  camOffset: {x: 0, y: 0, z: -4}
   smooth: 10
   horizontalAimingSpeed: 0
   verticalAimingSpeed: 0
@@ -876,7 +876,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 222436014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.84, y: 0.66213083, z: 32.07}
+  m_LocalPosition: {x: -0.81, y: 0.66213083, z: 31.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2828,6 +2828,18 @@ PrefabInstance:
     - target: {fileID: 400006, guid: 1bb0616bdc6faef41b8dfec064677b1c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 1bb0616bdc6faef41b8dfec064677b1c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 1bb0616bdc6faef41b8dfec064677b1c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 1bb0616bdc6faef41b8dfec064677b1c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bb0616bdc6faef41b8dfec064677b1c, type: 3}
@@ -7881,7 +7893,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gestor: {fileID: 1336874826}
   jugador: {fileID: 985994077}
-  aro: {fileID: 879996128}
+  aro: {fileID: 2012210103}
   pelota: {fileID: 668067472}
   barraFuerza:
     raiz: {fileID: 1806572972}
@@ -7895,8 +7907,8 @@ MonoBehaviour:
     vertical: 0
   velocidadBarra: 1.2
   alturaOjos: 1.7
-  duracionVuelo: 0.8
-  alturaParabola: 1.5
+  duracionVuelo: 1.5
+  alturaParabola: 3
   distanciaFallo: 2
 --- !u!4 &1796001571
 Transform:
@@ -8557,6 +8569,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1999465260}
   m_CullTransparentMesh: 0
+--- !u!4 &2012210103 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400004, guid: 1bb0616bdc6faef41b8dfec064677b1c,
+    type: 3}
+  m_PrefabInstance: {fileID: 607582338}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2014302075
 GameObject:
   m_ObjectHideFlags: 0
