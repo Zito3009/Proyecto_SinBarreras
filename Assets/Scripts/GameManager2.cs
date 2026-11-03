@@ -45,12 +45,21 @@ public class GameManager2 : MonoBehaviour
     [Header("Cancha")]
     public GameObject[] lineas;
 
+    [Header("Ocultar Aro por Proximidad")]
+    [Tooltip("Arrastra aquí el GameObject AroBasket")]
+    public Transform aroBasket;
+    [Tooltip("Cámara a detectar (si se deja vacío, busca automáticamente la MainCamera)")]
+    public Transform camara;
+    [Tooltip("Distancia en metros a la que el aro se vuelve invisible")]
+    public float distanciaOcultarAro = 2.5f;
+
     private int puntos;
     private int intentosUsados;
     private bool huboFallo;
     private bool ganoMejor;
     private bool modoExtra;
     private float tiempoRestante;
+    private Renderer[] renderersAro;
 
     void Start()
     {
@@ -75,10 +84,14 @@ public class GameManager2 : MonoBehaviour
         tiempoRestante = tiempoPorIntento;
         ActualizarTextoTiempo();
         ActualizarHUD();
+
+        InicializarOcultarAro();
     }
 
     void Update()
-   {
+    {
+        ActualizarOcultarAro();
+
         if (estado != Estado.Corriendo && estado != Estado.Tirando)
         {
             AjustarEstadoCursor(false);
@@ -100,6 +113,42 @@ public class GameManager2 : MonoBehaviour
             // TEMPORAL: Teclas de prueba para tiro
             if (Input.GetKeyDown(KeyCode.C)) TerminarIntento(true);
             if (Input.GetKeyDown(KeyCode.F)) TerminarIntento(false);
+        }
+    }
+
+    void InicializarOcultarAro()
+    {
+        if (camara == null && Camera.main != null)
+        {
+            camara = Camera.main.transform;
+        }
+
+        if (aroBasket != null)
+        {
+            renderersAro = aroBasket.GetComponentsInChildren<Renderer>();
+        }
+    }
+
+    void ActualizarOcultarAro()
+    {
+        if (aroBasket == null || renderersAro == null || renderersAro.Length == 0) return;
+
+        if (camara == null && Camera.main != null)
+        {
+            camara = Camera.main.transform;
+        }
+
+        if (camara == null) return;
+
+        float distancia = Vector3.Distance(aroBasket.position, camara.position);
+        bool visible = distancia > distanciaOcultarAro;
+
+        foreach (Renderer r in renderersAro)
+        {
+            if (r != null && r.enabled != visible)
+            {
+                r.enabled = visible;
+            }
         }
     }
 
