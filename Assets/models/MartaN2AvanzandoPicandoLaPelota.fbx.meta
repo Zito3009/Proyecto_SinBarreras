@@ -1,0 +1,701 @@
+fileFormatVersion: 2
+guid: f7b669ccefde245eab3113f29c9d2634
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Apoyabrazo1
+    100002: Apoyabrazo2
+    100004: ApoyaPata
+    100006: ApoyaPata.001
+    100008: Armature
+    100010: Armature.001
+    100012: Armature.003
+    100014: AsientoSilla
+    100016: Bone
+    100018: Bone_end
+    100020: Cube
+    100022: Cube.001
+    100024: Cube.002
+    100026: Cube.003
+    100028: Cube.004
+    100030: CuerpoCompleto
+    100032: CuerpoCompleto.001
+    100034: CuerpoCompleto.002
+    100036: Cylinder
+    100038: Cylinder.001
+    100040: Cylinder.002
+    100042: Cylinder.003
+    100044: Cylinder.004
+    100046: Cylinder.005
+    100048: Cylinder.006
+    100050: Cylinder.007
+    100052: Cylinder.008
+    100054: Cylinder.009
+    100056: Cylinder.010
+    100058: Cylinder.011
+    100060: Cylinder.012
+    100062: Cylinder.013
+    100064: Cylinder.014
+    100066: Cylinder.015
+    100068: //RootNode
+    100070: mixamorig:Head
+    100072: mixamorig:Head 1
+    100074: mixamorig:HeadTop_End
+    100076: mixamorig:HeadTop_End 1
+    100078: mixamorig:HeadTop_End_end
+    100080: mixamorig:HeadTop_End_end 1
+    100082: mixamorig:Hips
+    100084: mixamorig:Hips 1
+    100086: mixamorig:LeftArm
+    100088: mixamorig:LeftArm 1
+    100090: mixamorig:LeftFoot
+    100092: mixamorig:LeftFoot 1
+    100094: mixamorig:LeftForeArm
+    100096: mixamorig:LeftForeArm 1
+    100098: mixamorig:LeftHand
+    100100: mixamorig:LeftHand 1
+    100102: mixamorig:LeftHandIndex1
+    100104: mixamorig:LeftHandIndex1 1
+    100106: mixamorig:LeftHandIndex2
+    100108: mixamorig:LeftHandIndex2 1
+    100110: mixamorig:LeftHandIndex3
+    100112: mixamorig:LeftHandIndex3 1
+    100114: mixamorig:LeftHandIndex4
+    100116: mixamorig:LeftHandIndex4 1
+    100118: mixamorig:LeftHandIndex4_end
+    100120: mixamorig:LeftHandIndex4_end 1
+    100122: mixamorig:LeftLeg
+    100124: mixamorig:LeftLeg 1
+    100126: mixamorig:LeftShoulder
+    100128: mixamorig:LeftShoulder 1
+    100130: mixamorig:LeftToe_End
+    100132: mixamorig:LeftToe_End 1
+    100134: mixamorig:LeftToe_End_end
+    100136: mixamorig:LeftToe_End_end 1
+    100138: mixamorig:LeftToeBase
+    100140: mixamorig:LeftToeBase 1
+    100142: mixamorig:LeftUpLeg
+    100144: mixamorig:LeftUpLeg 1
+    100146: mixamorig:Neck
+    100148: mixamorig:Neck 1
+    100150: mixamorig:RightArm
+    100152: mixamorig:RightArm 1
+    100154: mixamorig:RightFoot
+    100156: mixamorig:RightFoot 1
+    100158: mixamorig:RightForeArm
+    100160: mixamorig:RightForeArm 1
+    100162: mixamorig:RightHand
+    100164: mixamorig:RightHand 1
+    100166: mixamorig:RightHandIndex1
+    100168: mixamorig:RightHandIndex1 1
+    100170: mixamorig:RightHandIndex2
+    100172: mixamorig:RightHandIndex2 1
+    100174: mixamorig:RightHandIndex3
+    100176: mixamorig:RightHandIndex3 1
+    100178: mixamorig:RightHandIndex4
+    100180: mixamorig:RightHandIndex4 1
+    100182: mixamorig:RightHandIndex4_end
+    100184: mixamorig:RightHandIndex4_end 1
+    100186: mixamorig:RightLeg
+    100188: mixamorig:RightLeg 1
+    100190: mixamorig:RightShoulder
+    100192: mixamorig:RightShoulder 1
+    100194: mixamorig:RightToe_End
+    100196: mixamorig:RightToe_End 1
+    100198: mixamorig:RightToe_End_end
+    100200: mixamorig:RightToe_End_end 1
+    100202: mixamorig:RightToeBase
+    100204: mixamorig:RightToeBase 1
+    100206: mixamorig:RightUpLeg
+    100208: mixamorig:RightUpLeg 1
+    100210: mixamorig:Spine
+    100212: mixamorig:Spine 1
+    100214: mixamorig:Spine1
+    100216: mixamorig:Spine1 1
+    100218: mixamorig:Spine2
+    100220: mixamorig:Spine2 1
+    100222: Pelota
+    100224: Respaldo
+    100226: RuedaEntera
+    100228: RuedaEntera.001
+    100230: SiilaRuedas
+    100232: TubitoAcostado
+    100234: TubitoCAD
+    100236: TubitoCAD.003
+    100238: TubitoCAI
+    100240: TubitoCAI.001
+    100242: TubitoHorizontal
+    100244: TubitoHorizontalAbajo
+    100246: TubitoPrePata
+    100248: TubitoPrePata2
+    100250: TubitoRespaldoD1.002
+    100252: TubitoRespaldoIzq
+    100254: TubitosDD
+    100256: TubitosII
+    100258: TuboDiagonal
+    100260: TuboDiagonal2
+    100262: TuboHorizontalAbajo
+    100264: TuboPata
+    100266: TuboPata2
+    100268: TuboRuedaChica
+    100270: TuboRuedaGrande
+    100272: TuboRuedaGrande2
+    100274: TuboRuedaGrandeAtra2
+    100276: TuboRuedaGrandeAtras
+    100278: TuboRuedita
+    400000: Apoyabrazo1
+    400002: Apoyabrazo2
+    400004: ApoyaPata
+    400006: ApoyaPata.001
+    400008: Armature
+    400010: Armature.001
+    400012: Armature.003
+    400014: AsientoSilla
+    400016: Bone
+    400018: Bone_end
+    400020: Cube
+    400022: Cube.001
+    400024: Cube.002
+    400026: Cube.003
+    400028: Cube.004
+    400030: CuerpoCompleto
+    400032: CuerpoCompleto.001
+    400034: CuerpoCompleto.002
+    400036: Cylinder
+    400038: Cylinder.001
+    400040: Cylinder.002
+    400042: Cylinder.003
+    400044: Cylinder.004
+    400046: Cylinder.005
+    400048: Cylinder.006
+    400050: Cylinder.007
+    400052: Cylinder.008
+    400054: Cylinder.009
+    400056: Cylinder.010
+    400058: Cylinder.011
+    400060: Cylinder.012
+    400062: Cylinder.013
+    400064: Cylinder.014
+    400066: Cylinder.015
+    400068: //RootNode
+    400070: mixamorig:Head
+    400072: mixamorig:Head 1
+    400074: mixamorig:HeadTop_End
+    400076: mixamorig:HeadTop_End 1
+    400078: mixamorig:HeadTop_End_end
+    400080: mixamorig:HeadTop_End_end 1
+    400082: mixamorig:Hips
+    400084: mixamorig:Hips 1
+    400086: mixamorig:LeftArm
+    400088: mixamorig:LeftArm 1
+    400090: mixamorig:LeftFoot
+    400092: mixamorig:LeftFoot 1
+    400094: mixamorig:LeftForeArm
+    400096: mixamorig:LeftForeArm 1
+    400098: mixamorig:LeftHand
+    400100: mixamorig:LeftHand 1
+    400102: mixamorig:LeftHandIndex1
+    400104: mixamorig:LeftHandIndex1 1
+    400106: mixamorig:LeftHandIndex2
+    400108: mixamorig:LeftHandIndex2 1
+    400110: mixamorig:LeftHandIndex3
+    400112: mixamorig:LeftHandIndex3 1
+    400114: mixamorig:LeftHandIndex4
+    400116: mixamorig:LeftHandIndex4 1
+    400118: mixamorig:LeftHandIndex4_end
+    400120: mixamorig:LeftHandIndex4_end 1
+    400122: mixamorig:LeftLeg
+    400124: mixamorig:LeftLeg 1
+    400126: mixamorig:LeftShoulder
+    400128: mixamorig:LeftShoulder 1
+    400130: mixamorig:LeftToe_End
+    400132: mixamorig:LeftToe_End 1
+    400134: mixamorig:LeftToe_End_end
+    400136: mixamorig:LeftToe_End_end 1
+    400138: mixamorig:LeftToeBase
+    400140: mixamorig:LeftToeBase 1
+    400142: mixamorig:LeftUpLeg
+    400144: mixamorig:LeftUpLeg 1
+    400146: mixamorig:Neck
+    400148: mixamorig:Neck 1
+    400150: mixamorig:RightArm
+    400152: mixamorig:RightArm 1
+    400154: mixamorig:RightFoot
+    400156: mixamorig:RightFoot 1
+    400158: mixamorig:RightForeArm
+    400160: mixamorig:RightForeArm 1
+    400162: mixamorig:RightHand
+    400164: mixamorig:RightHand 1
+    400166: mixamorig:RightHandIndex1
+    400168: mixamorig:RightHandIndex1 1
+    400170: mixamorig:RightHandIndex2
+    400172: mixamorig:RightHandIndex2 1
+    400174: mixamorig:RightHandIndex3
+    400176: mixamorig:RightHandIndex3 1
+    400178: mixamorig:RightHandIndex4
+    400180: mixamorig:RightHandIndex4 1
+    400182: mixamorig:RightHandIndex4_end
+    400184: mixamorig:RightHandIndex4_end 1
+    400186: mixamorig:RightLeg
+    400188: mixamorig:RightLeg 1
+    400190: mixamorig:RightShoulder
+    400192: mixamorig:RightShoulder 1
+    400194: mixamorig:RightToe_End
+    400196: mixamorig:RightToe_End 1
+    400198: mixamorig:RightToe_End_end
+    400200: mixamorig:RightToe_End_end 1
+    400202: mixamorig:RightToeBase
+    400204: mixamorig:RightToeBase 1
+    400206: mixamorig:RightUpLeg
+    400208: mixamorig:RightUpLeg 1
+    400210: mixamorig:Spine
+    400212: mixamorig:Spine 1
+    400214: mixamorig:Spine1
+    400216: mixamorig:Spine1 1
+    400218: mixamorig:Spine2
+    400220: mixamorig:Spine2 1
+    400222: Pelota
+    400224: Respaldo
+    400226: RuedaEntera
+    400228: RuedaEntera.001
+    400230: SiilaRuedas
+    400232: TubitoAcostado
+    400234: TubitoCAD
+    400236: TubitoCAD.003
+    400238: TubitoCAI
+    400240: TubitoCAI.001
+    400242: TubitoHorizontal
+    400244: TubitoHorizontalAbajo
+    400246: TubitoPrePata
+    400248: TubitoPrePata2
+    400250: TubitoRespaldoD1.002
+    400252: TubitoRespaldoIzq
+    400254: TubitosDD
+    400256: TubitosII
+    400258: TuboDiagonal
+    400260: TuboDiagonal2
+    400262: TuboHorizontalAbajo
+    400264: TuboPata
+    400266: TuboPata2
+    400268: TuboRuedaChica
+    400270: TuboRuedaGrande
+    400272: TuboRuedaGrande2
+    400274: TuboRuedaGrandeAtra2
+    400276: TuboRuedaGrandeAtras
+    400278: TuboRuedita
+    2100000: MetalApoyaPies
+    2100002: Cuero
+    2100004: Metal
+    2100006: Piel
+    2100008: PantalonN2
+    2100010: Zapatillas
+    2100012: Pelo
+    2100014: RemeraN2
+    2100016: GomaRueda
+    2100018: MetalOscuro
+    2100020: No Name
+    2100022: PelotaBasket
+    2300000: Apoyabrazo1
+    2300002: Apoyabrazo2
+    2300004: ApoyaPata
+    2300006: ApoyaPata.001
+    2300008: AsientoSilla
+    2300010: Cube
+    2300012: Cube.001
+    2300014: Cube.002
+    2300016: Cube.003
+    2300018: Cube.004
+    2300020: CuerpoCompleto
+    2300022: Cylinder
+    2300024: Cylinder.001
+    2300026: Cylinder.002
+    2300028: Cylinder.003
+    2300030: Cylinder.004
+    2300032: Cylinder.005
+    2300034: Cylinder.006
+    2300036: Cylinder.007
+    2300038: Cylinder.008
+    2300040: Cylinder.009
+    2300042: Cylinder.010
+    2300044: Cylinder.011
+    2300046: Cylinder.012
+    2300048: Cylinder.013
+    2300050: Cylinder.014
+    2300052: Cylinder.015
+    2300054: Respaldo
+    2300056: RuedaEntera
+    2300058: RuedaEntera.001
+    2300060: SiilaRuedas
+    2300062: TubitoAcostado
+    2300064: TubitoCAD
+    2300066: TubitoCAD.003
+    2300068: TubitoCAI
+    2300070: TubitoCAI.001
+    2300072: TubitoHorizontal
+    2300074: TubitoHorizontalAbajo
+    2300076: TubitoPrePata
+    2300078: TubitoPrePata2
+    2300080: TubitoRespaldoD1.002
+    2300082: TubitoRespaldoIzq
+    2300084: TubitosDD
+    2300086: TubitosII
+    2300088: TuboDiagonal
+    2300090: TuboDiagonal2
+    2300092: TuboHorizontalAbajo
+    2300094: TuboPata
+    2300096: TuboPata2
+    2300098: TuboRuedaChica
+    2300100: TuboRuedaGrande
+    2300102: TuboRuedaGrande2
+    2300104: TuboRuedaGrandeAtra2
+    2300106: TuboRuedaGrandeAtras
+    2300108: TuboRuedita
+    3300000: Apoyabrazo1
+    3300002: Apoyabrazo2
+    3300004: ApoyaPata
+    3300006: ApoyaPata.001
+    3300008: AsientoSilla
+    3300010: Cube
+    3300012: Cube.001
+    3300014: Cube.002
+    3300016: Cube.003
+    3300018: Cube.004
+    3300020: CuerpoCompleto
+    3300022: Cylinder
+    3300024: Cylinder.001
+    3300026: Cylinder.002
+    3300028: Cylinder.003
+    3300030: Cylinder.004
+    3300032: Cylinder.005
+    3300034: Cylinder.006
+    3300036: Cylinder.007
+    3300038: Cylinder.008
+    3300040: Cylinder.009
+    3300042: Cylinder.010
+    3300044: Cylinder.011
+    3300046: Cylinder.012
+    3300048: Cylinder.013
+    3300050: Cylinder.014
+    3300052: Cylinder.015
+    3300054: Respaldo
+    3300056: RuedaEntera
+    3300058: RuedaEntera.001
+    3300060: SiilaRuedas
+    3300062: TubitoAcostado
+    3300064: TubitoCAD
+    3300066: TubitoCAD.003
+    3300068: TubitoCAI
+    3300070: TubitoCAI.001
+    3300072: TubitoHorizontal
+    3300074: TubitoHorizontalAbajo
+    3300076: TubitoPrePata
+    3300078: TubitoPrePata2
+    3300080: TubitoRespaldoD1.002
+    3300082: TubitoRespaldoIzq
+    3300084: TubitosDD
+    3300086: TubitosII
+    3300088: TuboDiagonal
+    3300090: TuboDiagonal2
+    3300092: TuboHorizontalAbajo
+    3300094: TuboPata
+    3300096: TuboPata2
+    3300098: TuboRuedaChica
+    3300100: TuboRuedaGrande
+    3300102: TuboRuedaGrande2
+    3300104: TuboRuedaGrandeAtra2
+    3300106: TuboRuedaGrandeAtras
+    3300108: TuboRuedita
+    4300000: ApoyaPata
+    4300002: ApoyaPata.001
+    4300004: Apoyabrazo1
+    4300006: Apoyabrazo2
+    4300008: AsientoSilla
+    4300010: Cube
+    4300012: Cube.001
+    4300014: Cube.002
+    4300016: Cube.003
+    4300018: Cube.004
+    4300020: CuerpoCompleto
+    4300022: CuerpoCompleto.001
+    4300024: CuerpoCompleto.002
+    4300026: Cylinder
+    4300028: Cylinder.001
+    4300030: Cylinder.002
+    4300032: Cylinder.003
+    4300034: Cylinder.004
+    4300036: Cylinder.005
+    4300038: Cylinder.006
+    4300040: Cylinder.007
+    4300042: Cylinder.008
+    4300044: Cylinder.009
+    4300046: Cylinder.010
+    4300048: Cylinder.011
+    4300050: Cylinder.012
+    4300052: Cylinder.013
+    4300054: Cylinder.014
+    4300056: Cylinder.015
+    4300058: Pelota
+    4300060: Respaldo
+    4300062: RuedaEntera
+    4300064: RuedaEntera.001
+    4300066: SiilaRuedas
+    4300068: TubitoAcostado
+    4300070: TubitoCAD
+    4300072: TubitoCAD.003
+    4300074: TubitoCAI
+    4300076: TubitoCAI.001
+    4300078: TubitoHorizontal
+    4300080: TubitoHorizontalAbajo
+    4300082: TubitoPrePata
+    4300084: TubitoPrePata2
+    4300086: TubitoRespaldoD1.002
+    4300088: TubitoRespaldoIzq
+    4300090: TubitosDD
+    4300092: TubitosII
+    4300094: TuboDiagonal
+    4300096: TuboDiagonal2
+    4300098: TuboHorizontalAbajo
+    4300100: TuboPata
+    4300102: TuboPata2
+    4300104: TuboRuedaChica
+    4300106: TuboRuedaGrande
+    4300108: TuboRuedaGrande2
+    4300110: TuboRuedaGrandeAtra2
+    4300112: TuboRuedaGrandeAtras
+    4300114: TuboRuedita
+    7400000: Armature|MartaAvanzandoBasket
+    7400002: Armature|SentarseBasket
+    7400004: Armature_001|MartaAvanzandoBasket
+    7400006: Armature.001|SentarseBasket
+    7400008: Armature_003|PelotaPicando
+    9500000: //RootNode
+    13700000: CuerpoCompleto.001
+    13700002: CuerpoCompleto.002
+    13700004: Pelota
+    2186277476908879412: ImportLogs
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Armature|MartaAvanzandoBasket
+      takeName: Armature|MartaAvanzandoBasket
+      firstFrame: 0
+      lastFrame: 83
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|SentarseBasket
+      takeName: Armature|SentarseBasket
+      firstFrame: 0
+      lastFrame: 59
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature_001|MartaAvanzandoBasket
+      takeName: Armature.001|MartaAvanzandoBasket
+      firstFrame: 0
+      lastFrame: 83
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature.001|SentarseBasket
+      takeName: Armature.001|SentarseBasket
+      firstFrame: 0
+      lastFrame: 59
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature_003|PelotaPicando
+      takeName: Armature.003|PelotaPicando
+      firstFrame: 0
+      lastFrame: 84
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,240 @@
+fileFormatVersion: 2
+guid: 016a65208e427482c85e1da68cdaeb2d
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: CuerpoCompleto.001
+    100002: //RootNode
+    100004: SiilaRuedas
+    400000: CuerpoCompleto.001
+    400002: //RootNode
+    400004: SiilaRuedas
+    2100000: Material.004
+    2100002: PantalonN2.001
+    2100004: Material.005
+    2100006: Material.006
+    2100008: RemeraN2.001
+    2100010: MetalOscuro
+    2100012: Metal
+    2100014: GomaRueda
+    2100016: MetalApoyaPies
+    2100018: Cuero
+    2300000: CuerpoCompleto.001
+    2300002: SiilaRuedas
+    3300000: CuerpoCompleto.001
+    3300002: SiilaRuedas
+    4300000: CuerpoCompleto.001
+    4300002: SiilaRuedas
+    9500000: //RootNode
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cuero
+    second: {fileID: 2100000, guid: d4a40c4da7d5b4be7acc83c27d47ec3f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GomaRueda
+    second: {fileID: 2100000, guid: bcd0dd691d31e42039f27b67fbb679e5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.004
+    second: {fileID: 2100000, guid: ddfd90881ac1240bca34df8cc2b8de42, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.005
+    second: {fileID: 2100000, guid: e7fb47f5cbd284c408e899535d18a59a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.006
+    second: {fileID: 2100000, guid: 7468d6aa18ecd4e90bbcab0cedab0fe0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal
+    second: {fileID: 2100000, guid: e4c95e54bde894ea599b44fa4bcd941f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MetalApoyaPies
+    second: {fileID: 2100000, guid: 61ef3086f29584e81ae00d75969b9dbf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MetalOscuro
+    second: {fileID: 2100000, guid: 062ec02d30a794e059f547b0e37e9794, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PantalonN2.001
+    second: {fileID: 2100000, guid: 6d5ff3475bdc14b649b8af3561737871, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RemeraN2.001
+    second: {fileID: 2100000, guid: 31b7f9d11b41e4b8ebf70200019c7811, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: MetalGalvanizedSteelWorn001_METALNESS_2K_METALNESS
+    second: {fileID: 2800000, guid: 7ffb0008c458a452f8fc84090ee0d84c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: MetalGalvanizedSteelWorn001_NRM_2K_METALNESS
+    second: {fileID: 2800000, guid: 2468fcdf18cc14e32beafc99ff5f3125, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: PantalonN2
+    second: {fileID: 2800000, guid: d6a684a0cbd2d4e7ea99a1e3e85f07ad, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Pelo2.0
+    second: {fileID: 2800000, guid: 3d6f85148c1fa45e289092aa3d371e79, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: PielMarTa
+    second: {fileID: 2800000, guid: 9355d9142a15b48c39206770aaf14066, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RemeraN2
+    second: {fileID: 2800000, guid: 0cb1f48f80b2b45a5a25b7d24fcf177a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaCueroAzul
+    second: {fileID: 2800000, guid: c106fbace19ff4938b0ebce5d78e97ea, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaCueroAzulNM
+    second: {fileID: 2800000, guid: bdd62a28ad3a54206a8dad9b9699406d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaGomaCaucho
+    second: {fileID: 2800000, guid: 95291b90066554d4c91df49713b1514d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaGomaCauchoNM
+    second: {fileID: 2800000, guid: 6e4e2c8f54d0645da867bde1db03eb75, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaMetalClaroSilla
+    second: {fileID: 2800000, guid: 15648477a48af432c9fcf9011c5ad5c2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaMetalGrisOscuro
+    second: {fileID: 2800000, guid: 39b239644eb4549d1ae544e6cc5cb5fd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaMetalOscuroNM
+    second: {fileID: 2800000, guid: 3cc95cb23123f499eb981899b7538b14, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturaMetalRugosoNM
+    second: {fileID: 2800000, guid: c02346964c05e4878bdd3ae43753e894, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: ZapatillaDerecha
+    second: {fileID: 2800000, guid: f1c2feaf1ea0d4ec5ae20e868fae8c1f, type: 3}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
