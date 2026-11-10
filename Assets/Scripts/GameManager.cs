@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -48,6 +49,12 @@ public class GameManager : MonoBehaviour
         if (!termino && Time.timeScale > 0)
             tiempo += Time.deltaTime;
     }
+
+    public void ReintentarFase1()
+{
+    Time.timeScale = 1f; // Despausa el juego
+    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+}
 
     public void TiempoAgotado()
     {

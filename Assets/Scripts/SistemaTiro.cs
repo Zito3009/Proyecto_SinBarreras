@@ -7,10 +7,10 @@ public class SistemaTiro : MonoBehaviour
     [System.Serializable]
     public class Barra
     {
-        public RectTransform raiz;        // Cambiado a RectTransform para evitar GetComponent en cada frame
-        public RectTransform zonaVerde;  // Zona verde diseñada en Canvas
-        public RectTransform indicador;  // Línea blanca móvil
-        public bool vertical;            // TRUE = Vertical (Eje Y), FALSE = Horizontal (Eje X)
+        public RectTransform raiz;        // Contenedor principal de la barra
+        public RectTransform zonaVerde;   // Zona de acierto
+        public RectTransform indicador;   // Línea/aguja móvil
+        public bool vertical;             // TRUE = Vertical (Eje Y), FALSE = Horizontal (Eje X)
     }
 
     [Header("Referencias")]
@@ -30,7 +30,7 @@ public class SistemaTiro : MonoBehaviour
     public float alturaParabola = 2.5f;
     public float distanciaFallo = 2f;
 
-    // Control de estado interno y restauración de cámara
+    // Control de estado interno
     private bool enTiro = false;
     private float valorFrenado;
     private Vector3 camaraPosOriginal;
@@ -38,7 +38,7 @@ public class SistemaTiro : MonoBehaviour
 
     void Start()
     {
-        // Forzamos la lógica del eje por código para evitar errores de configuración en el Inspector
+        // Fuerza la orientación según el tipo de barra
         if (barraFuerza != null) barraFuerza.vertical = true;
         if (barraPrecision != null) barraPrecision.vertical = false;
 
@@ -47,50 +47,21 @@ public class SistemaTiro : MonoBehaviour
 
     public void OcultarTodo()
     {
-<<<<<<< Updated upstream
-        // Al arrancar la partida, ambas barras inician desactivadas
-        if (barraFuerza.raiz != null) barraFuerza.raiz.SetActive(false);
-        if (barraPrecision.raiz != null) barraPrecision.raiz.SetActive(false);
-=======
         if (barraFuerza != null && barraFuerza.raiz != null) barraFuerza.raiz.gameObject.SetActive(false);
         if (barraPrecision != null && barraPrecision.raiz != null) barraPrecision.raiz.gameObject.SetActive(false);
->>>>>>> Stashed changes
         if (pelota != null) pelota.gameObject.SetActive(false);
     }
 
     public void Empezar()
     {
-        // Bloqueo de seguridad: Evita ejecutar corrutinas dobles si se llama a Empezar() repetidamente
         if (enTiro) return;
         StartCoroutine(Tirar());
     }
 
     IEnumerator Tirar()
     {
-<<<<<<< Updated upstream
-
-        
-        // 1) Orientar la cámara hacia el aro
-        Transform camaraTransform = Camera.main.transform;
-        camaraTransform.position = new Vector3(jugador.position.x, alturaOjos, jugador.position.z);
-        camaraTransform.LookAt(aro.position);
-
-        // Activar AMBAS barras al mismo tiempo al comenzar el tiro
-        if (barraFuerza.raiz != null) barraFuerza.raiz.SetActive(true);
-        if (barraPrecision.raiz != null) barraPrecision.raiz.SetActive(true);
-
-        // Inicializar posiciones de los indicadores
-        MoverIndicadorVertical(barraFuerza, 0f);
-        MoverIndicadorHorizontal(barraPrecision, 0.5f);
-
-        yield return new WaitForSeconds(0.2f);
-
-        // 2) Mover Barra Vertical (Fuerza)
-        yield return StartCoroutine(UsarBarra(barraFuerza, velocidadBarra));
-=======
         enTiro = true;
 
-        // Comprobación de nulos al inicio
         Camera camaraPrincipal = Camera.main;
         if (camaraPrincipal == null || jugador == null || aro == null || pelota == null)
         {
@@ -101,14 +72,15 @@ public class SistemaTiro : MonoBehaviour
 
         Transform camaraTransform = camaraPrincipal.transform;
 
-        // 1) Guardar posición y rotación original de la cámara antes de orientarla
+        // Guardar transformación original de la cámara
         camaraPosOriginal = camaraTransform.position;
         camaraRotOriginal = camaraTransform.rotation;
 
+        // Posicionar cámara apuntando al aro
         camaraTransform.position = new Vector3(jugador.position.x, jugador.position.y + alturaOjos, jugador.position.z);
         camaraTransform.LookAt(aro.position);
 
-        // Activar barras en pantalla
+        // Activar barras en interfaz
         if (barraFuerza.raiz != null) barraFuerza.raiz.gameObject.SetActive(true);
         if (barraPrecision.raiz != null) barraPrecision.raiz.gameObject.SetActive(true);
 
@@ -117,35 +89,22 @@ public class SistemaTiro : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
-        // 2) Mover Barra Vertical (Fuerza) iniciando abajo (0.0)
-        Mensaje("FUERZA: Apretá ESPACIO");
+        // 1) Barra de Fuerza (Vertical)
         yield return StartCoroutine(UsarBarra(barraFuerza, velocidadBarra, 0f));
->>>>>>> Stashed changes
         float fuerza = valorFrenado;
 
         yield return new WaitForSeconds(0.2f);
 
-<<<<<<< Updated upstream
-        // 3) Mover Barra Horizontal (Precisión)
-        yield return StartCoroutine(UsarBarra(barraPrecision, velocidadBarra));
-        float precision = valorFrenado;
-
-        // 4) Comprobar si los indicadores quedaron dentro de sus zonas verdes
-=======
-        // 3) Mover Barra Horizontal (Precisión) iniciando en el centro (0.5) suavemente
-        Mensaje("PRECISIÓN: Apretá ESPACIO");
+        // 2) Barra de Precisión (Horizontal)
         yield return StartCoroutine(UsarBarra(barraPrecision, velocidadBarra, 0.5f));
         float precision = valorFrenado;
 
-        Mensaje("");
-
-        // 4) Comprobar acierto
->>>>>>> Stashed changes
+        // Comprobar aciertos
         bool fuerzaOk = ComprobarAcierto(barraFuerza, fuerza);
         bool precisionOk = ComprobarAcierto(barraPrecision, precision);
         bool convertido = fuerzaOk && precisionOk;
 
-        // 5) Definir trayectoria de la pelota
+        // Calcular destino final
         Vector3 haciaAro = (aro.position - camaraTransform.position);
         haciaAro.y = 0f;
         haciaAro.Normalize();
@@ -162,7 +121,7 @@ public class SistemaTiro : MonoBehaviour
             destino += camaraTransform.right * (precision < 0.5f ? -1f : 1f) * distanciaFallo;
         }
 
-        // 6) Animación del tiro
+        // Animación de la parábola
         Vector3 inicioPelota = camaraTransform.position + camaraTransform.forward * 0.5f + Vector3.down * 0.3f;
         pelota.position = inicioPelota;
         pelota.gameObject.SetActive(true);
@@ -176,7 +135,7 @@ public class SistemaTiro : MonoBehaviour
             yield return null;
         }
 
-        // Caída tras el tiro
+        // Caída libre tras tiro
         Vector3 posFinal = pelota.position;
         tiempo = 0f;
         while (tiempo < 0.4f)
@@ -188,11 +147,10 @@ public class SistemaTiro : MonoBehaviour
 
         yield return new WaitForSeconds(1.2f);
 
-        // 7) Restaurar cámara a la posición y rotación previa
+        // Restaurar posición de cámara original
         camaraTransform.position = camaraPosOriginal;
         camaraTransform.rotation = camaraRotOriginal;
 
-        // Ocultar elementos y terminar tiro
         OcultarTodo();
         enTiro = false;
 
@@ -204,10 +162,10 @@ public class SistemaTiro : MonoBehaviour
 
     IEnumerator UsarBarra(Barra barra, float velocidad, float valorInicial = 0f)
     {
-        // Se inicializa el reloj en concordancia con el valor inicial de 't'
         float reloj = valorInicial / velocidad;
         float t = valorInicial;
 
+        // Espera a que el jugador suelte espacio antes de empezar a medir la nueva tecla
         while (Input.GetKey(KeyCode.Space)) yield return null;
 
         while (!Input.GetKeyDown(KeyCode.Space))
@@ -215,14 +173,7 @@ public class SistemaTiro : MonoBehaviour
             reloj += Time.deltaTime;
             t = Mathf.PingPong(reloj * velocidad, 1f);
 
-            if (barra.vertical == true)
-            {
-                MoverIndicadorVertical(barra, t);
-            }
-            else if (barra.vertical == false)
-            {
-                MoverIndicadorHorizontal(barra, t);
-            }
+            MoverIndicador(barra, t);
 
             yield return null;
         }
@@ -231,39 +182,12 @@ public class SistemaTiro : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
     }
 
-<<<<<<< Updated upstream
-    void MoverIndicadorVertical(Barra barra, float t)
-    {
-        if (barra == null || barra.indicador == null || barra.raiz == null) return;
-
-        RectTransform contenedor = barra.raiz.GetComponent<RectTransform>();
-        if (contenedor == null) return;
-
-        float alto = contenedor.rect.height;
-        float pos = Mathf.Lerp(-alto / 2f, alto / 2f, t);
-        barra.indicador.anchoredPosition = new Vector2(0f, pos);
-    }
-
-    void MoverIndicadorHorizontal(Barra barra, float t)
-    {
-        if (barra == null || barra.indicador == null || barra.raiz == null) return;
-
-        RectTransform contenedor = barra.raiz.GetComponent<RectTransform>();
-        if (contenedor == null) return;
-
-        float alto = contenedor.rect.width;
-        float pos = Mathf.Lerp(-alto / 2f, alto / 2f, t);
-        barra.indicador.anchoredPosition = new Vector2(0f, pos);
-    }
-=======
     void MoverIndicador(Barra barra, float t)
     {
         if (barra == null || barra.indicador == null || barra.raiz == null) return;
 
-        // Se utiliza 'barra.vertical' directamente en lugar de comparar nombres
         if (barra.vertical)
         {
-            // VERTICAL: Considera el tamaño de la aguja para que no sobresalga del marco
             float altoContenedor = barra.raiz.rect.height;
             float altoIndicador = barra.indicador.rect.height;
             float limite = (altoContenedor - altoIndicador) / 2f;
@@ -273,7 +197,6 @@ public class SistemaTiro : MonoBehaviour
         }
         else
         {
-            // HORIZONTAL: Considera el tamaño de la aguja en el eje X
             float anchoContenedor = barra.raiz.rect.width;
             float anchoIndicador = barra.indicador.rect.width;
             float limite = (anchoContenedor - anchoIndicador) / 2f;
@@ -282,7 +205,6 @@ public class SistemaTiro : MonoBehaviour
             barra.indicador.anchoredPosition = new Vector2(pos, 0f);
         }
     }
->>>>>>> Stashed changes
 
     bool ComprobarAcierto(Barra barra, float valorT)
     {
