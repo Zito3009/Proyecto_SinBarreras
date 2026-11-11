@@ -87,4 +87,18 @@ public class Defensor : MonoBehaviour
         p.x = XDeCarril(carril);
         transform.localPosition = p;
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+    // Verifica si lo que tocó a la esfera es el Jugador (por Tag o por script)
+        if (other.CompareTag("jugador") || other.GetComponentInParent<CorredorJugador>() != null)
+        {
+            CorredorJugador corredor = FindObjectOfType<CorredorJugador>();
+            if (corredor != null && corredor.gestor != null)
+            {
+                corredor.Detener();
+                corredor.gestor.TerminarIntento(false); // Pierde el intento
+            }
+        }
+    }
 }

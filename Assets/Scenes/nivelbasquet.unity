@@ -917,40 +917,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193432090}
   m_CullTransparentMesh: 0
---- !u!1 &196857614 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8301348219256675487, guid: d23a71d629ca2cb428e58efdcf5d4c1b,
-    type: 3}
-  m_PrefabInstance: {fileID: 966014203}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &196857615 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8301348219256438975, guid: d23a71d629ca2cb428e58efdcf5d4c1b,
     type: 3}
   m_PrefabInstance: {fileID: 966014203}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &196857616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 196857614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 455241d876ac8b44d8a43bf97c726307, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  pivotOffset: {x: 0, y: 2.5, z: 0}
-  camOffset: {x: 0, y: 0, z: -4}
-  smooth: 10
-  horizontalAimingSpeed: 0
-  verticalAimingSpeed: 0
-  maxVerticalAngle: -10
-  minVerticalAngle: -10
-  XAxis: Mouse X
-  YAxis: Mouse Y
 --- !u!1 &219866442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,7 +1016,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 222436014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.81, y: 0.66213083, z: 31.76}
+  m_LocalPosition: {x: -0.81, y: 0.66213083, z: 28.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -5162,6 +5134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MartaN2Sentada
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 016a65208e427482c85e1da68cdaeb2d, type: 3}
+      propertyPath: m_TagString
+      value: jugador
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 016a65208e427482c85e1da68cdaeb2d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.75
@@ -5172,7 +5148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 016a65208e427482c85e1da68cdaeb2d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.4
+      value: -2.45
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 016a65208e427482c85e1da68cdaeb2d, type: 3}
       propertyPath: m_LocalRotation.x
@@ -5208,7 +5184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 016a65208e427482c85e1da68cdaeb2d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.8695652
+      value: 1.58
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 016a65208e427482c85e1da68cdaeb2d, type: 3}
       propertyPath: m_LocalScale.y
@@ -6128,7 +6104,7 @@ PrefabInstance:
     - target: {fileID: 8301348219256438975, guid: d23a71d629ca2cb428e58efdcf5d4c1b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.21
+      value: 2.98
       objectReference: {fileID: 0}
     - target: {fileID: 8301348219256438975, guid: d23a71d629ca2cb428e58efdcf5d4c1b,
         type: 3}
@@ -6168,7 +6144,7 @@ PrefabInstance:
     - target: {fileID: 8301348219256438975, guid: d23a71d629ca2cb428e58efdcf5d4c1b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.08
+      value: 1.15
       objectReference: {fileID: 0}
     - target: {fileID: 8301348219256675485, guid: d23a71d629ca2cb428e58efdcf5d4c1b,
         type: 3}
@@ -9738,7 +9714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gestor: {fileID: 1336874826}
-  jugador: {fileID: 985994077}
+  jugador: {fileID: 1852846701}
   aro: {fileID: 879996128}
   pelota: {fileID: 668067472}
   barraFuerza:
@@ -10169,6 +10145,12 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!4 &1852846701 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400002, guid: 016a65208e427482c85e1da68cdaeb2d,
+    type: 3}
+  m_PrefabInstance: {fileID: 785885802}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1889241747
 GameObject:
   m_ObjectHideFlags: 0
