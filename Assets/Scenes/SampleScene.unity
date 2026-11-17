@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3227,7 +3227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 8816046271331536153}
   pivotOffset: {x: 0, y: 0.5, z: 0}
-  camOffset: {x: 0, y: 0, z: -1.6}
+  camOffset: {x: 0, y: 0, z: -2}
   smooth: 10
   horizontalAimingSpeed: 2.5
   verticalAimingSpeed: 2.5
@@ -29379,7 +29379,7 @@ PrefabInstance:
     - target: {fileID: 680170540457677285, guid: 30fa6545208c4be41b28a4ccfcbe983c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.586
+      value: 1.23
       objectReference: {fileID: 0}
     - target: {fileID: 680170540457677285, guid: 30fa6545208c4be41b28a4ccfcbe983c,
         type: 3}
@@ -29389,7 +29389,7 @@ PrefabInstance:
     - target: {fileID: 680170540457677285, guid: 30fa6545208c4be41b28a4ccfcbe983c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.821
+      value: -2.19
       objectReference: {fileID: 0}
     - target: {fileID: 680170540457677285, guid: 30fa6545208c4be41b28a4ccfcbe983c,
         type: 3}
