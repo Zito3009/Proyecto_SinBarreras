@@ -6,6 +6,7 @@ public class CambioDeEscena : MonoBehaviour
     // Método público para que aparezca en el Inspector del Botón
     public void CargarEscena(string nivelbasquet)
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(nivelbasquet);
     }
 }
