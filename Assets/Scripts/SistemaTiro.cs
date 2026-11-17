@@ -10,7 +10,7 @@ public class SistemaTiro : MonoBehaviour
         public RectTransform raiz;        // Contenedor principal de la barra
         public RectTransform zonaVerde;   // Zona de acierto
         public RectTransform indicador;   // Línea/aguja móvil
-        public bool vertical;             // TRUE = Vertical (Eje Y), FALSE = Horizontal (Eje X)
+        public bool vertical;             // TRUE = Eje Y local, FALSE = Eje X local
     }
 
     [Header("Referencias")]
@@ -38,10 +38,6 @@ public class SistemaTiro : MonoBehaviour
 
     void Start()
     {
-        // Fuerza la orientación según el tipo de barra
-        if (barraFuerza != null) barraFuerza.vertical = true;
-        if (barraPrecision != null) barraPrecision.vertical = false;
-
         OcultarTodo();
     }
 
@@ -89,13 +85,13 @@ public class SistemaTiro : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
-        // 1) Barra de Fuerza (Vertical)
+        // 1) Barra de Fuerza
         yield return StartCoroutine(UsarBarra(barraFuerza, velocidadBarra, 0f));
         float fuerza = valorFrenado;
 
         yield return new WaitForSeconds(0.2f);
 
-        // 2) Barra de Precisión (Horizontal)
+        // 2) Barra de Precisión
         yield return StartCoroutine(UsarBarra(barraPrecision, velocidadBarra, 0.5f));
         float precision = valorFrenado;
 
@@ -165,7 +161,6 @@ public class SistemaTiro : MonoBehaviour
         float reloj = valorInicial / velocidad;
         float t = valorInicial;
 
-        // Espera a que el jugador suelte espacio antes de empezar a medir la nueva tecla
         while (Input.GetKey(KeyCode.Space)) yield return null;
 
         while (!Input.GetKeyDown(KeyCode.Space))
@@ -189,8 +184,8 @@ public class SistemaTiro : MonoBehaviour
         if (barra.vertical)
         {
             float altoContenedor = barra.raiz.rect.height;
-            float altoIndicador = barra.indicador.rect.height;
-            float limite = (altoContenedor - altoIndicador) / 2f;
+            float altoIndicador = barra.indicador.rect.height * Mathf.Abs(barra.indicador.localScale.y);
+            float limite = Mathf.Max(0f, (altoContenedor - altoIndicador) / 2f);
 
             float pos = Mathf.Lerp(-limite, limite, t);
             barra.indicador.anchoredPosition = new Vector2(0f, pos);
@@ -198,8 +193,8 @@ public class SistemaTiro : MonoBehaviour
         else
         {
             float anchoContenedor = barra.raiz.rect.width;
-            float anchoIndicador = barra.indicador.rect.width;
-            float limite = (anchoContenedor - anchoIndicador) / 2f;
+            float anchoIndicador = barra.indicador.rect.width * Mathf.Abs(barra.indicador.localScale.x);
+            float limite = Mathf.Max(0f, (anchoContenedor - anchoIndicador) / 2f);
 
             float pos = Mathf.Lerp(-limite, limite, t);
             barra.indicador.anchoredPosition = new Vector2(pos, 0f);
@@ -211,13 +206,21 @@ public class SistemaTiro : MonoBehaviour
         if (barra == null || barra.zonaVerde == null || barra.raiz == null) return true;
 
         float tamanoContenedor = barra.vertical ? barra.raiz.rect.height : barra.raiz.rect.width;
-        float posIndicador = Mathf.Lerp(-tamanoContenedor / 2f, tamanoContenedor / 2f, valorT);
+        float tamanoIndicador = (barra.indicador != null)
+            ? (barra.vertical
+                ? barra.indicador.rect.height * Mathf.Abs(barra.indicador.localScale.y)
+                : barra.indicador.rect.width * Mathf.Abs(barra.indicador.localScale.x))
+            : 0f;
 
-        float inicioZona = barra.vertical 
-            ? barra.zonaVerde.anchoredPosition.y - (barra.zonaVerde.rect.height / 2f) 
-            : barra.zonaVerde.anchoredPosition.x - (barra.zonaVerde.rect.width / 2f);
+        float limite = Mathf.Max(0f, (tamanoContenedor - tamanoIndicador) / 2f);
+        float posIndicador = Mathf.Lerp(-limite, limite, valorT);
 
-        float finZona = inicioZona + (barra.vertical ? barra.zonaVerde.rect.height : barra.zonaVerde.rect.width);
+        float tamanoZona = barra.vertical
+            ? barra.zonaVerde.rect.height * Mathf.Abs(barra.zonaVerde.localScale.y)
+            : barra.zonaVerde.rect.width * Mathf.Abs(barra.zonaVerde.localScale.x);
+
+        float inicioZona = (barra.vertical ? barra.zonaVerde.anchoredPosition.y : barra.zonaVerde.anchoredPosition.x) - (tamanoZona / 2f);
+        float finZona = inicioZona + tamanoZona;
 
         return posIndicador >= inicioZona && posIndicador <= finZona;
     }
