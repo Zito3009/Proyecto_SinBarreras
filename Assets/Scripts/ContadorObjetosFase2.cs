@@ -22,6 +22,7 @@ public class ContadorObjetosFase2 : MonoBehaviour
         tiempoRestante = tiempoFase2;
         objetosMovidos = 0;
         faseActiva = true;
+        textoContador.text = "0";
     }
 
     void Update()
