@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5964,7 +5964,7 @@ MonoBehaviour:
   panelGanaste: {fileID: 1384210591}
   panelGanasteMejor: {fileID: 792236278}
   panelMejora: {fileID: 1426719646}
-  personaje1: {fileID: 0}
+  personaje1: {fileID: 1839687450}
   personaje2: {fileID: 2074689207}
   posInicio: {fileID: 1950195782}
   panelGanastePersonaje2: {fileID: 1170476914}
@@ -24569,6 +24569,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1839323234}
   m_CullTransparentMesh: 0
+--- !u!1 &1839687450 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 680170540457905607, guid: 30fa6545208c4be41b28a4ccfcbe983c,
+    type: 3}
+  m_PrefabInstance: {fileID: 8298041602706103550}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1844600638
 GameObject:
   m_ObjectHideFlags: 0
