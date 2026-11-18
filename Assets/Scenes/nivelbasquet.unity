@@ -6775,7 +6775,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidad: 5
   velocidadCambioCarril: 12
-  separacionCarriles: 3
+  separacionCarriles: 4
   tiempoChoque: 2
   puntoInicio: {fileID: 222436015}
   gestor: {fileID: 1336874826}
@@ -10193,8 +10193,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carrilInicial: 1
-  separacionCarriles: 4
-  distanciaActivacion: 6
+  separacionCarriles: 6
+  distanciaActivacion: 4
   paso:
     carril: 1
     espera: 0.1
