@@ -24,6 +24,18 @@ public class SistemaTiro : MonoBehaviour
     public Barra barraPrecision;
     public float velocidadBarra = 1.2f;
 
+    [Header("Dificultad por nivel")]
+    [Tooltip("Número de este nivel (1, 2, 3...). Se cambia en el Inspector de cada escena.")]
+    public int nivel = 1;
+    [Tooltip("Doble: cuánto sube la velocidad por nivel (0.25 = +25% de la base por nivel)")]
+    public float incrementoDoble = 0.25f;
+    [Tooltip("Triple: la velocidad se multiplica por este factor en cada nivel (exponencial)")]
+    public float factorTriple = 1.35f;
+    [Tooltip("Tope para que no se vuelva imposible")]
+    public float velocidadMaxima = 6f;
+    [Tooltip("1 = ambas barras igual. Más de 1 = la de precisión va más rápida")]
+    public float multiplicadorPrecision = 1f;
+
     [Header("Pelota y Física")]
     public float alturaOjos = 1.7f;
     public float duracionVuelo = 1.2f;
@@ -52,6 +64,21 @@ public class SistemaTiro : MonoBehaviour
     {
         if (enTiro) return;
         StartCoroutine(Tirar());
+    }
+
+    // Velocidad según el nivel y si el tiro es doble o triple
+    float CalcularVelocidad()
+    {
+        int pasos = Mathf.Max(0, nivel - 1);
+        bool triple = gestor != null && gestor.esTriple;
+
+        float v;
+        if (triple)
+            v = velocidadBarra * Mathf.Pow(factorTriple, pasos);   // exponencial
+        else
+            v = velocidadBarra * (1f + incrementoDoble * pasos);   // lineal
+
+        return Mathf.Min(v, velocidadMaxima);
     }
 
     IEnumerator Tirar()
@@ -85,14 +112,16 @@ public class SistemaTiro : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
+        float velocidadActual = CalcularVelocidad();
+
         // 1) Barra de Fuerza
-        yield return StartCoroutine(UsarBarra(barraFuerza, velocidadBarra, 0f));
+        yield return StartCoroutine(UsarBarra(barraFuerza, velocidadActual, 0f));
         float fuerza = valorFrenado;
 
         yield return new WaitForSeconds(0.2f);
 
         // 2) Barra de Precisión
-        yield return StartCoroutine(UsarBarra(barraPrecision, velocidadBarra, 0.5f));
+        yield return StartCoroutine(UsarBarra(barraPrecision, velocidadActual * multiplicadorPrecision, 0.5f));
         float precision = valorFrenado;
 
         // Comprobar aciertos
