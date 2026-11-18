@@ -735,7 +735,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carrilInicial: 1
-  separacionCarriles: 7
+  separacionCarriles: 4
   distanciaActivacion: 14
   paso:
     carril: 1
@@ -1392,7 +1392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carrilInicial: 1
-  separacionCarriles: 7
+  separacionCarriles: 4
   distanciaActivacion: 14
   paso:
     carril: 1
@@ -2126,7 +2126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carrilInicial: 1
-  separacionCarriles: 7
+  separacionCarriles: 4
   distanciaActivacion: 14
   paso:
     carril: 1
@@ -2674,7 +2674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carrilInicial: 1
-  separacionCarriles: 7
+  separacionCarriles: 4
   distanciaActivacion: 14
   paso:
     carril: 1
@@ -5208,7 +5208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carrilInicial: 1
-  separacionCarriles: 7
+  separacionCarriles: 4
   distanciaActivacion: 14
   paso:
     carril: 1
@@ -6810,7 +6810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carrilInicial: 1
-  separacionCarriles: 3
+  separacionCarriles: 4
   distanciaActivacion: 14
   paso:
     carril: 1
@@ -8320,7 +8320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carrilInicial: 1
-  separacionCarriles: 7
+  separacionCarriles: 4
   distanciaActivacion: 14
   paso:
     carril: 1
@@ -10193,7 +10193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carrilInicial: 1
-  separacionCarriles: 7
+  separacionCarriles: 4
   distanciaActivacion: 14
   paso:
     carril: 1

@@ -7,23 +7,25 @@ public class Defensor : MonoBehaviour
     [System.Serializable]
     public class Paso
     {
-        public int carril = 0;        // -3 = izquierda, 0 = centro, 3 = derecha
-        public float espera = 0.1f;   // tiempo mínimo de espera
-        public float velocidad = 8f;  // qué tan rápido se desplaza lateralmente
+        public int carril = 0;        // -1 = izquierda, 0 = centro, 1 = derecha
+        public float espera = 0.1f;
+        public float velocidad = 8f;
     }
 
     [Header("Posición")]
     public int carrilInicial = 0;
-    public float separacionCarriles = 7f;
+    public float separacionCarriles = 3f;   // distancia en X entre carriles
 
     [Header("Cuándo se mueve (Anticipación)")]
-    [Tooltip("Distancia en Z a la que el defensor inicia el movimiento al ver al jugador.")]
-    public float distanciaActivacion = 10f; 
+    public float distanciaActivacion = 10f;
 
     [Header("Movimiento")]
     public Paso paso;
 
     private Transform jugador;
+
+    // Todos los defensores activos (de todas las líneas)
+    private static List<Defensor> activos = new List<Defensor>();
 
     void OnEnable()
     {
@@ -33,33 +35,56 @@ public class Defensor : MonoBehaviour
             if (corredor != null) jugador = corredor.transform;
         }
 
-        // Opciones de carriles fijas en las coordenadas X
-        int[] carriles = { -3, 0, 3 };
+        int[] carriles = { -1, 0, 1 };
 
-        // 1. Ubicación inicial aleatoria (-3, 0 o 3)
-        carrilInicial = carriles[Random.Range(0, carriles.Length)];
+        // Los defensores que están en la MISMA línea (mismo padre)
+        List<Defensor> companeros = new List<Defensor>();
+        foreach (Defensor otro in activos)
+        {
+            if (otro != this && otro.transform.parent == transform.parent)
+                companeros.Add(otro);
+        }
+
+        // 1. Carril inicial: que no lo use un compañero de la línea
+        List<int> libres = new List<int>(carriles);
+        foreach (Defensor c in companeros)
+            libres.Remove(c.carrilInicial);
+        if (libres.Count == 0) libres.AddRange(carriles); // línea con 3 o más: no hay otra
+
+        carrilInicial = libres[Random.Range(0, libres.Count)];
         PonerEnCarril(carrilInicial);
 
-        // 2. Elige un carril destino aleatorio DIFERENTE al inicial
-        paso = new Paso();
-        do
+        // 2. Carril destino: distinto al inicial y al destino de los compañeros
+        List<int> destinos = new List<int>(carriles);
+        destinos.Remove(carrilInicial);
+        foreach (Defensor c in companeros)
+            destinos.Remove(c.paso.carril);
+        if (destinos.Count == 0)
         {
-            paso.carril = carriles[Random.Range(0, carriles.Length)];
-        } 
-        while (paso.carril == carrilInicial);
+            destinos = new List<int>(carriles);
+            destinos.Remove(carrilInicial);
+        }
 
+        paso = new Paso();
+        paso.carril = destinos[Random.Range(0, destinos.Count)];
         paso.velocidad = 8f;
+
+        // Recién ahora me anoto, así los demás ven mis carriles ya elegidos
+        activos.Add(this);
 
         StartCoroutine(Rutina());
     }
 
+    void OnDisable()
+    {
+        activos.Remove(this);
+    }
+
     IEnumerator Rutina()
     {
-        // Espera a que el jugador esté a la distancia de activación
         while (jugador != null && jugador.position.z < transform.position.z - distanciaActivacion)
             yield return null;
 
-        // Pausa diminuta y movimiento directo
         yield return new WaitForSeconds(paso.espera);
         yield return StartCoroutine(IrAX(XDeCarril(paso.carril), paso.velocidad));
     }
@@ -77,8 +102,7 @@ public class Defensor : MonoBehaviour
 
     float XDeCarril(int carril)
     {
-        // Al ser -3, 0 o 3, el parámetro ya es la coordenada en X
-        return carril;
+        return carril * separacionCarriles;
     }
 
     void PonerEnCarril(int carril)
@@ -90,14 +114,13 @@ public class Defensor : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-    // Verifica si lo que tocó a la esfera es el Jugador (por Tag o por script)
         if (other.CompareTag("jugador") || other.GetComponentInParent<CorredorJugador>() != null)
         {
             CorredorJugador corredor = FindObjectOfType<CorredorJugador>();
             if (corredor != null && corredor.gestor != null)
             {
                 corredor.Detener();
-                corredor.gestor.TerminarIntento(false); // Pierde el intento
+                corredor.gestor.TerminarIntento(false);
             }
         }
     }
