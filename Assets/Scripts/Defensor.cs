@@ -14,7 +14,7 @@ public class Defensor : MonoBehaviour
 
     [Header("Posición")]
     public int carrilInicial = 0;
-    public float separacionCarriles = 3f;
+    public float separacionCarriles = 7f;
 
     [Header("Cuándo se mueve (Anticipación)")]
     [Tooltip("Distancia en Z a la que el defensor inicia el movimiento al ver al jugador.")]
