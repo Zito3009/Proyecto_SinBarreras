@@ -736,7 +736,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carrilInicial: 1
   separacionCarriles: 4
-  distanciaActivacion: 14
+  distanciaActivacion: 6
   paso:
     carril: 1
     espera: 0.1
@@ -1393,7 +1393,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carrilInicial: 1
   separacionCarriles: 4
-  distanciaActivacion: 14
+  distanciaActivacion: 6
   paso:
     carril: 1
     espera: 0.1
@@ -2127,7 +2127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carrilInicial: 1
   separacionCarriles: 4
-  distanciaActivacion: 14
+  distanciaActivacion: 6
   paso:
     carril: 1
     espera: 0.1
@@ -2675,7 +2675,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carrilInicial: 1
   separacionCarriles: 4
-  distanciaActivacion: 14
+  distanciaActivacion: 6
   paso:
     carril: 1
     espera: 0.1
@@ -5209,7 +5209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carrilInicial: 1
   separacionCarriles: 4
-  distanciaActivacion: 14
+  distanciaActivacion: 6
   paso:
     carril: 1
     espera: 0.1
@@ -5910,7 +5910,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &871079849
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6811,7 +6811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carrilInicial: 1
   separacionCarriles: 4
-  distanciaActivacion: 14
+  distanciaActivacion: 6
   paso:
     carril: 1
     espera: 0.1
@@ -8321,7 +8321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carrilInicial: 1
   separacionCarriles: 4
-  distanciaActivacion: 14
+  distanciaActivacion: 6
   paso:
     carril: 1
     espera: 0.1
@@ -10194,7 +10194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carrilInicial: 1
   separacionCarriles: 4
-  distanciaActivacion: 14
+  distanciaActivacion: 6
   paso:
     carril: 1
     espera: 0.1
